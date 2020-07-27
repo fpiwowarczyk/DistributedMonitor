@@ -1,5 +1,3 @@
-
-
 #include "utils.h"
 
 std::string s_recv (zmq::socket_t & socket) {
@@ -10,6 +8,12 @@ std::string s_recv (zmq::socket_t & socket) {
     return std::string(static_cast<char*>(message.data()), message.size());
 }
 
-int add(int x, int y){
-    return x+y;
+bool stringSend(zmq::socket_t & socket, const std::string & string){
+    zmq::message_t message(string.size());
+    memcpy (message.data(), string.data(), string.size());
+
+    bool rc = socket.send (message, 0);
+    return (rc);
 }
+
+bool structSend(zmq::socket_t & socket)

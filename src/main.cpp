@@ -3,7 +3,7 @@
 
 
 struct Message {
-    std::string hello;
+    std::vector<int> v1;
 };
 
 int main () {
@@ -28,9 +28,9 @@ int main () {
         std::string rply =s_recv(socket);
         std::cout <<"Received:"<< rply <<std::endl;
 
-        zmq::message_t reply(5);
-        memcpy( reply.data(),"World",5);
-        socket.send(reply);
+        std::string message = "World";
+        stringSend(socket,message);
+
     }
 
     return 0;

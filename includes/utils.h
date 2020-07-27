@@ -8,5 +8,6 @@
 
 std::string s_recv (zmq::socket_t & socket);
 
+bool stringSend(zmq::socket_t & socket, const std::string & string);
 
 #endif

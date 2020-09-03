@@ -1,29 +1,24 @@
 CXX = g++
 
-#Add Includes and src 
-CXXFLAGS = -Wall -g -Iincludes/ -Isrc
-# Tells compiler to look for source code in these directories ma
-VPATH = includes:src
-RM = rm -f
-LDLIBS = -lzmq
+MONITOR = ./monitor/monitor.cpp
+UTILS = ./utils/utils.cpp
+MAIN = ./main.cpp
+#Libraries
+LIBS = -lzmq -pthread 
+#Flags for g++
+CXXFLAGS = -Wall 
 
-PROJDIR := ./
-SOURCEDIR := $(PROJDIR)/includes
-BUILDDIR := $(PROJDIR)/src
+ALL = $(UTILS) $(MONITOR) $(MAIN)
 
-TARGET = main kons
 
-all:$(TARGET)
-	@true 
 
-main: main.o utils.o
-	$(CXX) $(CXXFLAGS) -o main main.o utils.o $(LDLIBS)
 
-kons: kons.o utils.o
-	$(CXX) $(CXXFLAGS) -o kons kons.o utils.o $(LDLIBS)
 
-utils: utils.o
-	$(CXX) $(CXXFLAGS) -c utils.o $(LDLIBS)
+main: clean debug 
+	$(CXX) $(CXXFLAGS) $(ALL) $(LIBS) -o main
+
 clean:
-	$(RM) *.o main kons
+	 rm -f main 
 
+debug:
+	echo "Compiling project"

@@ -21,4 +21,4 @@ clean:
 	 rm -f main 
 
 debug:
-	echo "Compiling project"
+	echo "Compilinbalbalbalbalg project"

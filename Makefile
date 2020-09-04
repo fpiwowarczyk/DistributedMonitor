@@ -1,6 +1,6 @@
 CXX = g++
 
-MESSAGE = ./message/message.cpp
+MESSAGE = ./message/message.cpp ./message/messageType.cpp
 MONITOR = ./monitor/monitor.cpp
 UTILS = ./utils/utils.cpp
 RICART-AGRAWALA= ./ricart-agrawala/ricart-agrawala.h

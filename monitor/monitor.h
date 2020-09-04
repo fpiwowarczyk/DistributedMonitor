@@ -10,7 +10,7 @@
 class Monitor {
 
     public:
-        Monitor(int port,std::vector<int> otherPorts);
+        Monitor(int port, std::vector<int> otherPorts);
         ~Monitor();
         
     private:

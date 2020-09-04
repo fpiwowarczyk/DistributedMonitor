@@ -1,6 +1,6 @@
 #include "monitor.h"
 
-Monitor::Monitor(int port, std::vector<int> otherPorts) {
+Monitor::Monitor(int port, std::vector<int> otherPorts) :  ricartAgrawala(port) {
     ctx  = zmq_ctx_new();
     receiveSocket = zmq_socket(ctx,ZMQ_REP);
 
@@ -13,6 +13,8 @@ Monitor::Monitor(int port, std::vector<int> otherPorts) {
     std::cout<<"Has those other ports:" <<std::endl;
     ricartAgrawala.displayPortNumbers();
 }
+
+void Monitor::destoryCtx(){zmq_ctx_destroy(ctx);}
 
 Monitor::~Monitor(){
     zmq_close(receiveSocket);

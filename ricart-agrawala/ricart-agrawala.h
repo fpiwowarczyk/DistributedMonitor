@@ -17,15 +17,18 @@
 class RicartAgrawala {
 
     public:
-    RicartAgrawala();
+    RicartAgrawala(int port);
     ~RicartAgrawala();
     void addNewPortNumber(int port);
     void displayPortNumbers() {Utils::displayVector(portNumbers);}
     private:
 
     std::vector<int> portNumbers;
+    std::vector<std::pair<long,Message>> requestQueue;
+    std::map<std::string, std::vector<int>> replyReceived;
 
-    void *context;
+
+    void *ctx;
     int port;
     int requestId;
 };

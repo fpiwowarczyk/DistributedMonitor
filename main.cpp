@@ -21,8 +21,17 @@ int main(int argc,char **argv) {
          otherPorts.push_back(std::stoi(argv[i]));
       }
       Monitor monitor {port,otherPorts};
-   } else if (argv[1]==TEST){
+   } else if (argv[1] == TEST){
       runMonitorTests();
+   } else if(argv[1] == MONITOR){
+      int port = std::stoi(argv[3]);
+      std::vector<int> otherPorts{};
+
+      for(int i=4;i<argc;i++){
+         otherPorts.push_back(std::stoi(argv[i]));
+      }
+      Monitor monitor{port, otherPorts};
+
    }
 
    return 1;

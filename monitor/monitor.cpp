@@ -1,6 +1,6 @@
 #include "monitor.h"
 
-Monitor::Monitor(int port, std::vector<int> otherPorts) {
+Monitor::Monitor(int port, std::vector<int> otherPorts) :suzukiKasami(port){
     ctx  = zmq_ctx_new();
     receiveSocket = zmq_socket(ctx,ZMQ_REP);
 
@@ -8,9 +8,10 @@ Monitor::Monitor(int port, std::vector<int> otherPorts) {
     zmq_bind(receiveSocket,host.c_str());
     std::cout <<"Initialized with address: " << host << std::endl;
     for(const int &otherPort : otherPorts) {
-        std::cout<<otherPort<<std::endl;
+        suzukiKasami.addNewPortNumber(otherPort);
     }
     std::cout<<"Has those other ports:" <<std::endl;
+    suzukiKasami.displayPortNumbers();
 }
 
 

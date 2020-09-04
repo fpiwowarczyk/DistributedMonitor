@@ -11,15 +11,34 @@
 class SuzukiKasami{
 
     public:
-    SuzukiKasami();
+    SuzukiKasami(int port);
     ~SuzukiKasami();
+
+
+
+    //Portons on PORTS
+    void addNewPortNumber(int port);
+    void removePortNumber(int port);
+    void displayPortNumbers();
+    
     private:
-    std::vector<int> ports;
-    std::vector<std::pair<long,Message>> requestQueue;
+    // Private Functions 
+
+        //Socket operations 
+        void *createZmqSocket(int type);
+        void closeZmqSocket(void *socket);
+        void sendMessage(Message message, int port);
+    //Variables
+        void *ctx;
+        int port;
+        int requestId;
+    //Conteners
+        std::vector<int> ports;
+        std::vector<std::pair<long,Message>> requestQueue;
 
 
 
-};
+}; // SuzukiKasami class declaration 
 
 
 #endif 

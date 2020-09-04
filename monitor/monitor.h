@@ -10,6 +10,7 @@ class Monitor {
     public:
     Monitor(int port,std::vector<int> otherPorts);
     ~Monitor();
+    void destoryCtx();
     private:
     RicartAgrawala ricartAgrawala;
     void *ctx;

@@ -10,4 +10,11 @@ Monitor::Monitor(int port, std::vector<int> otherPorts) {
     for(const int &otherPort : otherPorts) {
         ricartAgrawala.addNewPortNumber(otherPort);
     }
+    std::cout<<"Has those other ports:" <<std::endl;
+    ricartAgrawala.displayPortNumbers();
+}
+
+Monitor::~Monitor(){
+    zmq_close(receiveSocket);
+    destoryCtx();
 }

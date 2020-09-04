@@ -20,6 +20,7 @@ class RicartAgrawala {
     RicartAgrawala();
     ~RicartAgrawala();
     void addNewPortNumber(int port);
+    void displayPortNumbers() {Utils::displayVector(portNumbers);}
     private:
 
     std::vector<int> portNumbers;

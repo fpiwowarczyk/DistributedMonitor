@@ -3,11 +3,11 @@ CXX = g++
 MESSAGE = ./message/message.cpp ./message/messageType.cpp
 MONITOR = ./monitor/monitor.cpp
 UTILS = ./utils/utils.cpp
-RICART-AGRAWALA= ./ricart-agrawala/ricart-agrawala.h
+SUZUKI_KASAMI = ./suzuki-kasami/suzuki-kasami.cpp
 TEST= ./tests/test_monitor.cpp
 MAIN = ./main.cpp
 
-ALL = $(UTILS) $(MESSAGE) $(MONITOR) $(RICART-AGRAWALA) $(TEST) $(MAIN)
+ALL = $(UTILS) $(MESSAGE) $(MONITOR) $(SUZUKI_KASAMI) $(TEST) $(MAIN)
 
 #Libraries
 LIBS = -lzmq -pthread 

@@ -2,10 +2,9 @@
 #define UTILS_H
 
 #include "../message/message.h"
+#include "../common/common.h"
 #include <chrono>
-#include <iostream>
 #include <random>
-#include <string>
 #include <vector>
 
 class Message;

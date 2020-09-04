@@ -1,12 +1,13 @@
 #ifndef MONITOR_H
 #define MONITOR_H
+#include "../suzuki-kasami/suzuki-kasami.h"
 #include "../common/common.h"
-#include "../ricart-agrawala/ricart-agrawala.h"
 
 #include"zmq.h"
 #include<cstring>
-#include<iostream>
 #include<thread>
+#include<vector>
+
 class Monitor {
 
     public:
@@ -14,7 +15,7 @@ class Monitor {
         ~Monitor();
         
     private:
-        RicartAgrawala ricartAgrawala;
+        SuzukiKasami suzukiKasami;
         void *ctx;
         void *receiveSocket;
         void destoryCtx();

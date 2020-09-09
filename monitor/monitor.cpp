@@ -1,5 +1,18 @@
 #include "monitor.h"
 
+
+void Monitor::wait(){
+    
+
+}
+
+void Monitor::pulse(){
+
+}
+
+void Monitor::pulseAll(){
+
+}
 Monitor::Monitor(int port, std::vector<int> otherPorts) :suzukiKasami(port){
     ctx  = zmq_ctx_new();
     receiveSocket = zmq_socket(ctx,ZMQ_REP);

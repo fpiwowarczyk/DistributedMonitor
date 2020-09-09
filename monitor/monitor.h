@@ -13,7 +13,9 @@ class Monitor {
     public:
         Monitor(int port, std::vector<int> otherPorts);
         ~Monitor();
-        
+        void wait();
+        void pulse();
+        void pulseAll();
     private:
         SuzukiKasami suzukiKasami;
         void *ctx;

@@ -12,12 +12,18 @@ class Message;
 enum class HelperMessageReceiverOrSender {RECEIVER,SENDER};
 
 class Utils {
-    private:
-        Utils();
 
     public:
     
-    template <typename T> static void displayVector(std::vector<T> vector);
+        template <typename T> static void displayVector(std::vector<T> vector);
+
+        static long getCurrentTimeStamp();
+
+        static std::string createRequestId(int port,int requestId);
+    private:
+        Utils();
+
+
 };
 
 

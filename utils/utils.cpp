@@ -6,12 +6,12 @@ template <> void Utils::displayVector(std::vector<int> vector){
     }
 }
 
-// template <>
-// void Utils::displayVector(std::vector<std::pair<long, Message>> vector){
-//   for (int i = 0; i < vector.size(); i++) {
-//     std::cout << "[" + std::to_string(i) + "]:" << std::endl;
-//     std::cout << "{" << std::endl
-//               << vector.at(i).second << std::endl
-//               << "}" << std::endl;
-//   }
-// }
+long Utils::getCurrentTimeStamp(){
+    return std::chrono::milliseconds(std::time(NULL)).count();
+}
+
+std::string Utils::createRequestId(int port, int requestId){
+    std::string s_port = std::to_string(port);
+    std::string s_requestId = std::to_string(requestId);
+    return std::string(s_port+"_"+s_requestId);
+}

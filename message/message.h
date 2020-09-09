@@ -7,29 +7,19 @@
 
 class Message  {
     public:
+    std::string getRequestId();
+    long getTimeStamp();
+    int getPort();
+    std::string getMemoryAddress();
+    MessageType getMessageType();
         Message(std::string serializedMessage);
-        Message(std::string requestId,long timestamp,int port
-                ,std::string memoryAddress, MessageType messageType);
-        Message(const Message &message,int port);
-
-        void setMessageType(MessageType newMessageType);
-
-        std::string getRequestId();
-        long getTimeStamp();
-        int getPort();
-        std::string getMemoryAddress();
-        MessaageType getMessageType();
-
-        std::string serializeMessage();
-        void deserializeMessage(std::string serializeMessage);
-
-
+        Message(std::string requestId,long timeStamp,int port, std::string memoryAddress, MessageType messageType);
         ~Message();
     private:
+        std::string memoryAddress;
         std::string requestId;
         long timeStamp;
         int port;
-        std::string memoryAddress;
         MessageType messageType;
         std::string serializeField(std::string fieldValue,bool isLast);
 

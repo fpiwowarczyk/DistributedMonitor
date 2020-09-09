@@ -2,6 +2,7 @@
 #define SUZUKI_KASAMI_H
 #include "../message/message.h"
 #include "../common/common.h"
+#include "../utils/utils.h"
 #include <algorithm>
 #include <map>
 #include <set>
@@ -11,23 +12,23 @@
 class SuzukiKasami{
 
     public:
-    SuzukiKasami(int port);
-    ~SuzukiKasami();
+        SuzukiKasami(int port);
+        ~SuzukiKasami();
 
-
-
+    //Messages
+        Message sendRequestMessage(std::string address);
+        
     //Portons on PORTS
-    void addNewPortNumber(int port);
-    void removePortNumber(int port);
-    void displayPortNumbers();
+        void addNewPortNumber(int port);
+        void removePortNumber(int port);
+        void displayPortNumbers();
     
     private:
     // Private Functions 
-
+        void sendMessage(Message message, int port);
         //Socket operations 
         void *createZmqSocket(int type);
         void closeZmqSocket(void *socket);
-        void sendMessage(Message message, int port);
     //Variables
         void *ctx;
         int port;

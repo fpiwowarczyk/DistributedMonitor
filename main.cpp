@@ -1,7 +1,7 @@
 #include "./tests/test_monitor.h"
 #include <thread>
 #include <iostream>
-#include<vector>
+#include <vector>
 
 const std::string TEST = "test";
 const std::string MONITOR = "monitor";
@@ -13,25 +13,20 @@ int main(int argc,char **argv) {
       return -1;
    }
 
-   if(argv[1]==MONITOR){
-      int port = std::stoi(argv[3]);
-
-      std::vector<int> otherPorts{};
-      for(int i =4;i<argc;i++){
-         otherPorts.push_back(std::stoi(argv[i]));
-      }
-      Monitor monitor {port,otherPorts};
-   } else if (argv[1] == TEST){
+   if (argv[1] == TEST){
       runMonitorTests();
    } else if(argv[1] == MONITOR){
-      int port = std::stoi(argv[3]);
+      int port = std::stoi(argv[2]);
       std::vector<int> otherPorts{};
 
-      for(int i=4;i<argc;i++){
+      for(int i=3;i<argc;i++){
          otherPorts.push_back(std::stoi(argv[i]));
       }
       Monitor monitor{port, otherPorts};
-
+      
+      std::cout<<"Press enter if others are ready"<< std::endl;
+      std::cin.get();
+      monitor.wait();
    }
 
    return 1;

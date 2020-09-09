@@ -19,7 +19,7 @@ main: clean debug
 	$(CXX) $(CXXFLAGS) $(ALL) $(LIBS) 
 
 clean:
-	 rm -f main 
+	 rm -f *.out
 
 debug:
 	echo "Compiling project"

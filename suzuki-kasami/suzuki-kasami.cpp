@@ -7,19 +7,19 @@ SuzukiKasami::SuzukiKasami(int port) :port{port}{
 
 SuzukiKasami::~SuzukiKasami(){ zmq_ctx_destroy(ctx); }
 
-void SuzukiKasami::sendMessage(Message message, int _port){
-    void *socket = createZmqSocket(ZMQ_REQ);
-    std::string host = HOST_ADDRESS+std::to_string(_port);
-    if(zmq_connect(socket,host.c_str())==0){
-        std::cout<< "Sending to " << host << ": " << message <<std::endl;
-        std::string serializeMessage = message.serializeMessage();
-        zmq_send(socket,serializeMessage.c_str(),serializeMessage.size(),0);
-    } else {
-        std::cout <<zmq_strerror(zmq_errno()) <<std::endl;
-    }
-    zmq_close(socket);
+
+Message SuzukiKasami::sendRequestMessage(std::string address){
+    long timeStamp = Utils::getCurrentTimeStamp();
+    std::string s_requestId = Utils::createRequestId(port,requestId);
+}
+void SuzukiKasami::sendMessage(Message message, int port){
 
 }
+
+
+
+
+
 void *SuzukiKasami::createZmqSocket(int type){
     void *newSocket = zmq_socket(ctx,type);
     return newSocket;

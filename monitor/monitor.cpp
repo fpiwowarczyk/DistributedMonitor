@@ -18,18 +18,6 @@ void Monitor::handleReceivingMessages(){
     }
 }
 
-void Monitor::wait(){
-    
-
-}
-
-void Monitor::pulse(){
-
-}
-
-void Monitor::pulseAll(){
-
-}
 Monitor::Monitor(int port, std::vector<int> otherPorts) :suzukiKasami(port){
     ctx  = zmq_ctx_new();
     receiveSocket = zmq_socket(ctx,ZMQ_REP);
@@ -39,14 +27,28 @@ Monitor::Monitor(int port, std::vector<int> otherPorts) :suzukiKasami(port){
     std::cout <<"Initialized with address: " << host << std::endl;
     for(const int &otherPort : otherPorts) {
         suzukiKasami.addNewPortNumber(otherPort);
+        suzukiKasami.addRequestSite();
     }
+
     std::cout<<"Has those other ports:" <<std::endl;
     suzukiKasami.displayPortNumbers();
+
+    std::cout<<"Values of request numbers"<<std::endl;
+    suzukiKasami.displayRequestNumbers();
+    suzukiKasami.displayToken();
     std::thread handlerThread(&Monitor::handleReceivingMessages,this);
     handlerThread.detach();
 }
 
+void Monitor::enter(std::string lock){
+    suzukiKasami.sendRequestMessage(lock);
+    while(!suzukiKasami.canEnterCriticalSection(lock)){
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
 
+    std::cout<<"Monitor withport: ["<<suzukiKasami.getPort()
+            <<"] has entered the: ["<< lock<<"]"<<std::endl;
+}
 
 Monitor::~Monitor(){
     zmq_close(receiveSocket);

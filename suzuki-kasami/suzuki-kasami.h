@@ -3,11 +3,13 @@
 #include "../message/message.h"
 #include "../common/common.h"
 #include "../utils/utils.h"
+#include "./token.h"
 #include <algorithm>
 #include <map>
 #include <set>
 #include <vector>
 #include <zmq.h>
+
 
 class SuzukiKasami{
 
@@ -16,13 +18,22 @@ class SuzukiKasami{
         ~SuzukiKasami();
 
     //Messages
-        Message sendRequestMessage(std::string address);
+        Message sendRequestMessage(std::string lock);
         
     //Portons on PORTS
+
         void addNewPortNumber(int port);
+        void addRequestSite();
         void removePortNumber(int port);
+        
+        int getPort();
+
         void displayPortNumbers();
-    
+        void displayRequestNumbers();
+
+        bool canEnterCriticalSection(std::string lock);
+        void exitCriticalSection(std::string lock);
+        void displayToken();
     private:
     // Private Functions 
         void sendMessage(Message message, int port);
@@ -32,10 +43,11 @@ class SuzukiKasami{
     //Variables
         void *ctx;
         int port;
-        int requestId;
+        Token token;
+        bool hasToken;
     //Conteners
+        std::vector<int> RN;
         std::vector<int> ports;
-        std::vector<std::pair<long,Message>> requestQueue;
 
 
 

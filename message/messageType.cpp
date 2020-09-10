@@ -7,8 +7,8 @@ std::string messageTypeToString(const MessageType &messageType){
             return "REPLY";
             
         }
-        case MessageType::REMOVE: {
-            return "REMOVE";
+        case MessageType::TOKEN: {
+            return "TOKEN";
         }
         case MessageType::REQUEST: {
             return "REQUEST";

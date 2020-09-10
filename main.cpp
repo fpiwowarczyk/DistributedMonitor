@@ -4,6 +4,16 @@
 #include <iostream>
 #include <vector>
 
+
+/*
+*HOW to run 
+* Initailly token is on 1 program
+* template: ./a.out [function] [your port] [number of program] [first port] [second port] ...
+* 1 console: ./a.out monitor 10 1 11 12 13
+* 2 console: ./a.out monitor 11 2 10 12 13
+* 3 console: ./a.out monitor 12 3 11 10 13
+* 4 console: ./a.out monitor 13 4 11 12 10
+*/
 const std::string TEST = "test";
 const std::string MONITOR_MANUAL = "monitor-m";
 const std::string MONITOR_AUTO = "auto";
@@ -29,36 +39,15 @@ int main(int argc,char **argv) {
       
       std::cout<<"Press enter if others are ready:"<< std::endl;
       std::cin.get();
-      monitor.wait();
+      std::cout<<std::endl;
+      std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+      monitor.enter("Lock1"); // Try to enter lock
    } else if(argv[1]==MONITOR_AUTO){
-      if(std::stoi(argv[2])==1){ // For 1 console 
-         int port = 40;
-         std::vector<int> otherPorts{41,42,43};
-         Monitor monitor{port, otherPorts};
-         std::cout<<"Press enter if others are ready:"<< std::endl;
-         std::cin.get();
-      } else if(std::stoi(argv[2])==2){ // For 2 console 
-         int port = 41;
-         std::vector<int> otherPorts{40,42,43};
-         Monitor monitor{port, otherPorts};
-         std::cout<<"Press enter if others are ready:"<< std::endl;
-         std::cin.get();
-      } else if(std::stoi(argv[2])==3){ // For 3 console 
-         int port = 42;
-         std::vector<int> otherPorts{41,40,43};
-         Monitor monitor{port, otherPorts};
-         std::cout<<"Press enter if others are ready:"<< std::endl;
-         std::cin.get();
-      } else if(std::stoi(argv[2])==4){ // For 4 console 
-         int port = 43;
-         std::vector<int> otherPorts{41,42,40};
-         Monitor monitor{port, otherPorts};
-         std::cout<<"Press enter if others are ready:"<< std::endl;
-         std::cin.get();
-      }
-   }
+      std::cout<< "Right now nothing"<<std::endl;
+    } else {
+       std::cout << "Invalid argument: " << argv[1] << std::endl;
+    }
 
-   return 1;
-   
+   return 1; 
 }
 

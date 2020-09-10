@@ -3,7 +3,7 @@
 
 #include "../common/common.h"
 
-enum class MessageType {REQUEST,REPLY,REMOVE};
+enum class MessageType {REQUEST,REPLY,TOKEN};
 
 std::string messageTypeToString(const MessageType &messageType);
 MessageType stringToMessageType(const std::string &s_messageType);

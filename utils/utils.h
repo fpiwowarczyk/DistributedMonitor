@@ -20,6 +20,8 @@ class Utils {
         static long getCurrentTimeStamp();
 
         static std::string createRequestId(int port,int requestId);
+
+        static std::vector<std::string> splitString(const std::string &txt, char ch);
     private:
         Utils();
 

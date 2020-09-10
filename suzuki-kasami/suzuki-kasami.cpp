@@ -8,12 +8,9 @@ SuzukiKasami::SuzukiKasami(int port) :port{port}{
 SuzukiKasami::~SuzukiKasami(){ zmq_ctx_destroy(ctx); }
 
 
-Message SuzukiKasami::sendRequestMessage(std::string address){
-    long timeStamp = Utils::getCurrentTimeStamp();
-    std::string s_requestId = Utils::createRequestId(port,requestId);
-}
-void SuzukiKasami::sendMessage(Message message, int port){
 
+void SuzukiKasami::sendMessage(Message message, int port){
+    void *socket = createZmqSocket(ZMQ_REQ);
 }
 
 

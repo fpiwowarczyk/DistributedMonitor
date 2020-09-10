@@ -21,6 +21,7 @@ class Monitor {
         void *ctx;
         void *receiveSocket;
         void destoryCtx();
+        void handleReceivingMessages();
 };
 
 #endif

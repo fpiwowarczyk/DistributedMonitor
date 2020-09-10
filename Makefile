@@ -4,7 +4,7 @@ MESSAGE = ./message/message.cpp ./message/messageType.cpp
 MONITOR = ./monitor/monitor.cpp
 UTILS = ./utils/utils.cpp
 SUZUKI_KASAMI = ./suzuki-kasami/suzuki-kasami.cpp
-TEST= ./tests/test_monitor.cpp
+TEST= ./tests/test_monitor.cpp ./tests/test_message.cpp
 MAIN = ./main.cpp
 
 ALL = $(UTILS) $(MESSAGE) $(MONITOR) $(SUZUKI_KASAMI) $(TEST) $(MAIN)

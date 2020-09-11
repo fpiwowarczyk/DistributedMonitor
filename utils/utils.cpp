@@ -6,17 +6,6 @@ template <> void Utils::displayVector(std::vector<int> vector){
     }
 }
 
-long Utils::getCurrentTimeStamp(){
-    return std::chrono::milliseconds(std::time(NULL)).count();
-}
-
-std::string Utils::createRequestId(int port, int requestId){
-    std::string s_port = std::to_string(port);
-    std::string s_requestId = std::to_string(requestId);
-    return std::string(s_port+"_"+s_requestId);
-}
-
-
 std::vector<std::string> Utils::splitString(const std::string &txt, char ch){
     std::vector<std::string> strs;
     size_t pos = txt.find(ch);
@@ -35,4 +24,15 @@ std::vector<std::string> Utils::splitString(const std::string &txt, char ch){
     strs.push_back(
         txt.substr(initialPos, std::min(pos, txt.size()) - initialPos + 1));
     return strs;
+}
+
+std::string Utils::vectorToString(std::vector<int> vec){
+    std::string output ="";
+
+    for(int v:vec){
+        output += std::to_string(v);
+        output += ";";
+    }
+    output.pop_back(); // Remove last  ";" from string
+    return output;
 }

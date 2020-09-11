@@ -4,29 +4,42 @@
 #include "../common/common.h"
 #include "messageType.h"
 #include <chrono>
+#include <vector>
 
 class Message  {
     public:
-    std::string serializeMessage();
-    void deserializeMessage(std::string serializedMessage);
-    std::string getRequestId();
-    long getTimeStamp();
-    int getPort();
-    std::string getMemoryAddress();
-    MessageType getMessageType();
 
-    friend std::ostream &operator<<(std::ostream &os, const Message &message);
-    friend bool operator<(const Message &message, const Message &otherMessage);
-
+    //Serialization
+        std::string serializeMessageToken();
+        std::string serializeMessageRequest();
+        void deserializeMessage(std::string serializedMessage);
+    // I think i maight delete it
+        friend std::ostream &operator<<(std::ostream &os, const Message &message);
+    //Constructors
         Message(std::string serializedMessage);
-        Message(std::string requestId,long timeStamp,int port, std::string memoryAddress, MessageType messageType);
+        Message(MessageType messageType,int port,int sn, std::string lock);
+        Message(MessageType messageType,int port,
+                std::string lock,std::vector<int> LN,
+                std::vector<int> requestQueue);
         ~Message();
+
+     //Getters
+        MessageType getMessageType();
+        int getPort();
+        int getSn();
+        std::string getLock();
+        std::vector<int> getRequestQueue();
+        std::vector<int> getLN();
+
     private:
-        std::string requestId;
-        long timeStamp;
-        int port;
-        std::string memoryAddress;
-        MessageType messageType;
+        int port; // Port is an ID of requesting site 
+        int sn;
+        std::string lock; // Lock which is requested
+        MessageType messageType; // Token or Requests
+        std::vector<int> requestQueue;
+        std::vector<int> LN;
+
+
         std::string serializeField(std::string fieldValue,bool isLast);
 };
 #endif

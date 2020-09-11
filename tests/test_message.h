@@ -5,9 +5,12 @@
 #include <chrono>
 #include <ctime>
 #include <iostream>
+#include <vector>
 
 void runMessageTests();
-void is_serializedProperly();
-void is_deserializedProperly();
+void is_serializedProperlyToken();
+void is_serializedProperlyRequest();
+void is_deserializedProperlyToken();
+void is_deserializedProperlyRequest();
 
 #endif

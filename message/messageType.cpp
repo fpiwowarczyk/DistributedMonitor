@@ -3,28 +3,19 @@
 
 std::string messageTypeToString(const MessageType &messageType){
     switch(messageType){
-        case MessageType::REPLY:{
-            return "REPLY";
-            
-        }
         case MessageType::TOKEN: {
             return "TOKEN";
         }
         case MessageType::REQUEST: {
             return "REQUEST";
         }
-        default: {
-            return "REPLY";
-        }
     }
 }
 
 MessageType stringToMessageType(const std::string &s_messageType){
-    if(s_messageType=="REPLY")
-        return MessageType::REPLY;
+    if(s_messageType=="TOKEN")
+        return MessageType::TOKEN;
     else if(s_messageType=="REQUEST")
-        return MessageType::REQUEST;
-    else if(s_messageType=="REMOVE")
         return MessageType::REQUEST;
 }
 

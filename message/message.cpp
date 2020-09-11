@@ -1,39 +1,43 @@
 #include "message.h"
 
+
+//Constructors
 Message::Message(std::string serializedMessage){
     deserializeMessage(serializedMessage);
 }
 
-Message::Message(std::string _requestId, long _timeStamp, int _port,
-                 std::string _memoryAddress, MessageType _messageType)
-                :requestId{_requestId}, timeStamp{_timeStamp}, port{_port},
-                memoryAddress{_memoryAddress}, messageType{_messageType} {}
+Message::Message( MessageType  _messageType, int _port,int _sn, std::string _lock)
+                : messageType{_messageType},port{_port},sn{_sn},lock{_lock}{ }
 
+
+Message::Message(MessageType _messageType, int _port, std::string _lock,
+                    std::vector<int> _LN,std::vector<int> _requestQueue):
+                    messageType{_messageType}, port{_port}, lock{_lock},
+                    LN{_LN},requestQueue{_requestQueue}{ }
 
 Message::~Message(){
 }
 
-std::string Message::getRequestId(){return requestId;}
 
-long Message::getTimeStamp(){return timeStamp;}
-
-int Message::getPort() {return port;}
-
-std::string Message::getMemoryAddress(){return memoryAddress;}
-
-MessageType Message::getMessageType(){return messageType;}
-
-std::string Message::serializeMessage(){
+std::string Message::serializeMessageToken(){
     std::string serialized ="";
-    serialized += serializeField(requestId,false);
-    serialized += serializeField(std::to_string(timeStamp),false);
+    serialized += serializeField(messageTypeToString(messageType),false);
     serialized += serializeField(std::to_string(port),false);
-    serialized += serializeField(memoryAddress,false);
-    serialized += serializeField(messageTypeToString(messageType),true);
+    serialized += serializeField(lock,false);
+    serialized += serializeField(Utils::vectorToString(LN),false);
+    serialized += serializeField(Utils::vectorToString(requestQueue),true);
+
     return serialized;
 }
 
-
+std::string Message::serializeMessageRequest(){
+    std::string serialized = "";
+    serialized += serializeField(messageTypeToString(messageType),false);
+    serialized += serializeField(std::to_string(port),false);
+    serialized += serializeField(std::to_string(sn),false);
+    serialized += serializeField(lock,true);
+    return serialized;
+}
 std::string Message::serializeField(std::string fieldValue,bool isLast){
     switch(isLast){
         case false:
@@ -47,25 +51,52 @@ std::string Message::serializeField(std::string fieldValue,bool isLast){
 void Message::deserializeMessage(std::string serializedMessage){
     std::vector<std::string> fieldsValues = 
         Utils::splitString(serializedMessage,',');
-    requestId = fieldsValues[0];
-    timeStamp = std::stol(fieldsValues[1]);
-    port = std::stoi(fieldsValues[2]);
-    memoryAddress = fieldsValues[3];
-    messageType = stringToMessageType(fieldsValues[4]);
+    std::string Type = fieldsValues[0];
+    if(Type == "TOKEN"){ // Handle Token Message
+        messageType=stringToMessageType(fieldsValues[0]);
+        port = std::stoi(fieldsValues[1]);
+        lock = fieldsValues[2];
+        std::string s_LN = fieldsValues[3];
+        std::string s_requestQueue = fieldsValues[4];
+
+        std::vector<std::string> LN_parts=
+         Utils::splitString(s_LN,';');
+         for(std::string part:LN_parts){
+            LN.push_back(std::stoi(part));
+         }
+         std::vector<std::string> requestQueue_parts=
+         Utils::splitString(s_requestQueue,';');
+         for(std::string part:requestQueue_parts){
+             requestQueue.push_back(std::stoi(part));
+         }
+    }else if(Type == "REQUEST"){ // Handle Request message
+        messageType=stringToMessageType(fieldsValues[0]);
+        port = std::stoi(fieldsValues[1]);
+        sn=std::stoi(fieldsValues[2]);
+        lock = fieldsValues[3];
+    }
 }
 
 std::ostream &operator<<(std::ostream &os, const Message &message) {
   os << "{" << std::endl;
-  os << "Request ID: " << message.requestId << std::endl;
   os << "Port: " << message.port << std::endl;
-  os << "Timestamp: " << message.timeStamp << std::endl;
-  os << "Memory Address: " << message.memoryAddress << std::endl;
+  os << "Memory Address: " << message.lock << std::endl;
   os << "Message type: " << message.messageType << std::endl;
   os << "}" << std::endl;
 
   return os;
 }
 
-bool operator<(const Message &message, const Message &otherMessage) {
-  return message.timeStamp < otherMessage.timeStamp;
-}
+
+// Getters
+int Message::getPort() {return port;}
+
+int Message::getSn(){return sn;}
+
+std::string Message::getLock(){return lock;}
+
+MessageType Message::getMessageType(){return messageType;}
+
+std::vector<int> Message::getRequestQueue(){return requestQueue;}
+
+std::vector<int> Message::getLN(){return LN;}

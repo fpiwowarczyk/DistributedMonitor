@@ -34,6 +34,11 @@ class SuzukiKasami{
         bool canEnterCriticalSection(std::string lock);
         void exitCriticalSection(std::string lock);
         void displayToken();
+
+        //Message handling
+        void receiveRequestMessage(Message message);
+        void receiveTokenMessage(Message message);
+
     private:
     // Private Functions 
         void sendMessage(Message message, int port);
@@ -42,7 +47,7 @@ class SuzukiKasami{
         void closeZmqSocket(void *socket);
     //Variables
         void *ctx;
-        int port;
+        int port; // Site ID
         Token token;
         bool hasToken;
     //Conteners

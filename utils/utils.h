@@ -22,6 +22,8 @@ class Utils {
         static std::string createRequestId(int port,int requestId);
 
         static std::vector<std::string> splitString(const std::string &txt, char ch);
+
+        static std::string vectorToString(std::vector<int> vec);
     private:
         Utils();
 

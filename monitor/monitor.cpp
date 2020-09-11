@@ -14,6 +14,16 @@ void Monitor::handleReceivingMessages(){
                 std::string(reinterpret_cast<char const  *>(buffer),
                             std::char_traits<char>::length(buffer));
             Message message(serializedMessage);
+            switch (message.getMessageType()){
+                case MessageType::REQUEST: {
+                    suzukiKasami.receiveRequestMessage(message);
+                    break;
+                }
+                case MessageType::TOKEN: {
+                    suzukiKasami.receiveTokenMessage(message);
+                    break;
+                }
+            }
         }
     }
 }

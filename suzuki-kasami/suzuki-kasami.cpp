@@ -19,6 +19,13 @@ void SuzukiKasami::closeZmqSocket(void *socket){
     zmq_close(socket);
 }
 
+void SuzukiKasami::receiveRequestMessage(Message message){
+
+}
+
+void SuzukiKasami::receiveTokenMessage(Message message){
+
+}
 
 void SuzukiKasami::addNewPortNumber(int port){ports.push_back(port);}
 
@@ -40,7 +47,7 @@ int SuzukiKasami::getPort(){
 }
 
 Message SuzukiKasami::sendRequestMessage(std::string lock){
-    Message message{0, 0, port, "Lock", MessageType::REQUEST}; // TODO
+    Message message{MessageType::TOKEN,41,1,"Lock"}; // TODO
     return message;
 }
 void SuzukiKasami::displayRequestNumbers(){Utils::displayVector(RN);}

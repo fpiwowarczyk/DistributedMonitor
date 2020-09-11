@@ -1,5 +1,6 @@
 #include "./tests/test_monitor.h"
 #include "./tests/test_message.h"
+#include "./tests/test_suzuki-kasami.h"
 #include <thread>
 #include <iostream>
 #include <vector>
@@ -28,6 +29,7 @@ int main(int argc,char **argv) {
    if (argv[1] == TEST){
       runMessageTests();
       runMonitorTests();
+      runTestSuzukiKasami();
    } else if(argv[1] == MONITOR_MANUAL){
       int port = std::stoi(argv[2]);
       std::vector<int> otherPorts{};

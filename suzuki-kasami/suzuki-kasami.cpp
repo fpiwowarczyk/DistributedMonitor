@@ -20,16 +20,24 @@ void SuzukiKasami::closeZmqSocket(void *socket){
 }
 
 void SuzukiKasami::receiveRequestMessage(Message message){
-
+    // Message is MessageType,Port,SequenceNumber(SN),Lock
+    for (auto it = begin (RN); it != end (RN); ++it) {
+    if(it->first==message.getPort()){
+            if(it->second<message.getSn()){
+                it->second=message.getSn();
+            }
+        }   
+    }
 }
 
 void SuzukiKasami::receiveTokenMessage(Message message){
+    // Message is MessageType,Port,Lock,LN,requestQueue
+    hasToken=true;
 
 }
 
-void SuzukiKasami::addNewPortNumber(int port){ports.push_back(port);}
 
-void SuzukiKasami::addRequestSite(){ RN.push_back(0); token.addRequestNumber();}
+void SuzukiKasami::addRequestSite(int port){ RN.push_back(std::make_pair(port,0)); token.addRequestNumber();}
 
 void SuzukiKasami::removePortNumber(int port){
     int index;
@@ -42,16 +50,15 @@ bool SuzukiKasami::canEnterCriticalSection(std::string lock){
     return hasToken==true;
 }
 
-int SuzukiKasami::getPort(){
-    return port;
-}
+int SuzukiKasami::getPort(){return port;}
+
+std::vector<std::pair<int,int>> SuzukiKasami::getRN(){return RN;}
 
 Message SuzukiKasami::sendRequestMessage(std::string lock){
-    Message message{MessageType::TOKEN,41,1,"Lock"}; // TODO
+    Message message{MessageType::REQUEST,41,1,"Lock"}; // TODO
     return message;
 }
-void SuzukiKasami::displayRequestNumbers(){Utils::displayVector(RN);}
-void SuzukiKasami::displayPortNumbers(){Utils::displayVector(ports);}
+
 void SuzukiKasami::displayToken(){std::cout<<"Token Last Request Numbers"<<std::endl;
 token.displayLastRequestNumbers();
 std::cout<<"Token Request Queue (if nothing its empty)"<<std::endl;

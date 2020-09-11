@@ -10,7 +10,7 @@ class Token{
         std::vector<int> LN;
         std::vector<int> requestQueue;
         void addRequestNumber();
-        void addToQueue();
+        void addToQueue(int request);
         void updateLastRequestNumber();
         void removeFromQueue();
         void displayLastRequestNumbers();

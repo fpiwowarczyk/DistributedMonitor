@@ -5,20 +5,14 @@
 Message::Message(std::string serializedMessage){
     deserializeMessage(serializedMessage);
 }
-
 Message::Message( MessageType  _messageType, int _port,int _sn, std::string _lock)
                 : messageType{_messageType},port{_port},sn{_sn},lock{_lock}{ }
-
-
 Message::Message(MessageType _messageType, int _port, std::string _lock,
                     std::vector<int> _LN,std::vector<int> _requestQueue):
                     messageType{_messageType}, port{_port}, lock{_lock},
                     LN{_LN},requestQueue{_requestQueue}{ }
-
 Message::~Message(){
 }
-
-
 std::string Message::serializeMessageToken(){
     std::string serialized ="";
     serialized += serializeField(messageTypeToString(messageType),false);
@@ -46,8 +40,6 @@ std::string Message::serializeField(std::string fieldValue,bool isLast){
             return fieldValue;
     }
 }
-
-
 void Message::deserializeMessage(std::string serializedMessage){
     std::vector<std::string> fieldsValues = 
         Utils::splitString(serializedMessage,',');
@@ -86,8 +78,6 @@ std::ostream &operator<<(std::ostream &os, const Message &message) {
 
   return os;
 }
-
-
 // Getters
 int Message::getPort() {return port;}
 

@@ -22,14 +22,11 @@ class SuzukiKasami{
         
     //Portons on PORTS
 
-        void addNewPortNumber(int port);
-        void addRequestSite();
+        void addRequestSite(int Port);
         void removePortNumber(int port);
         
-        int getPort();
+        
 
-        void displayPortNumbers();
-        void displayRequestNumbers();
 
         bool canEnterCriticalSection(std::string lock);
         void exitCriticalSection(std::string lock);
@@ -39,6 +36,8 @@ class SuzukiKasami{
         void receiveRequestMessage(Message message);
         void receiveTokenMessage(Message message);
 
+        int getPort();
+        std::vector<std::pair<int,int>> getRN();
     private:
     // Private Functions 
         void sendMessage(Message message, int port);
@@ -47,11 +46,12 @@ class SuzukiKasami{
         void closeZmqSocket(void *socket);
     //Variables
         void *ctx;
-        int port; // Site ID
+        int port;
+        int id;
         Token token;
         bool hasToken;
     //Conteners
-        std::vector<int> RN;
+        std::vector<std::pair<int,int>> RN; // PORTS + Request Numbers
         std::vector<int> ports;
 
 

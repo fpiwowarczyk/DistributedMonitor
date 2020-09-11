@@ -8,7 +8,6 @@
 
 class Message  {
     public:
-
     //Serialization
         std::string serializeMessageToken();
         std::string serializeMessageRequest();

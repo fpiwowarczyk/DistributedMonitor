@@ -11,12 +11,12 @@ void Token::updateLastRequestNumber(){
     std::cout<<"TODO"<<std::endl;
 }
 
-void Token::addToQueue(){
-
+void Token::addToQueue(int request){
+    requestQueue.push_back(request);
 }
 
 void Token::removeFromQueue(){
-
+    requestQueue.erase(requestQueue.begin());
 }
 
 void Token::displayLastRequestNumbers(){

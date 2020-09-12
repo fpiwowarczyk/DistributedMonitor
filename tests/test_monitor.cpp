@@ -4,5 +4,5 @@ void runMonitorTests() {is_monitorProperlyInitialized();}
 
 void is_monitorProperlyInitialized(){
     std::vector<int> otherPorts = {42,43,44};
-    Monitor monitor{41,otherPorts};
+    Monitor monitor{41,otherPorts,true};
 }

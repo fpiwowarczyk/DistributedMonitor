@@ -11,7 +11,7 @@
 class Monitor {
 
     public:
-        Monitor(int port, std::vector<int> otherPorts);
+        Monitor(int port, std::vector<int> otherPorts,bool hasToken);
         ~Monitor();
         void enter();
         void wait();
@@ -23,6 +23,7 @@ class Monitor {
         void *receiveSocket;
         void destoryCtx();
         void handleReceivingMessages();
+        
 };
 
 #endif

@@ -31,9 +31,11 @@ void Monitor::enter(){
 
     std::cout<<"Monitor withport: ["<<suzukiKasami.getPort()
             <<"] has requested the critical section"<<std::endl;
+            
     if(!suzukiKasami.getHasToken()){
         suzukiKasami.sendRequestMessage();
         while(!suzukiKasami.canEnterCriticalSection()){
+            std::cout<<"Process is waiting for Token"<<std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     }
@@ -48,7 +50,7 @@ void Monitor::exit(){
 void Monitor::wait(){
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
 }
-Monitor::Monitor(int port, std::vector<int> otherPorts) :suzukiKasami(port){
+Monitor::Monitor(int port, std::vector<int> otherPorts,bool hasToken) :suzukiKasami(port,hasToken){
     ctx  = zmq_ctx_new();
     receiveSocket = zmq_socket(ctx,ZMQ_REP);
 

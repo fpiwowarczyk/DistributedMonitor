@@ -6,7 +6,7 @@ void runTestSuzukiKasami(){
 }
 
 void getRequestMessages(){
-    SuzukiKasami suzukiKasami{41};
+    SuzukiKasami suzukiKasami{41,true};
     suzukiKasami.addRequestSite(42);
     suzukiKasami.addRequestSite(43);
     suzukiKasami.addRequestSite(44);
@@ -37,7 +37,7 @@ void getRequestMessages(){
 
 void getTokenMessages(){
     std::vector<int> LN={1,0,0,0,0};
-    SuzukiKasami suzukiKasami{41};
+    SuzukiKasami suzukiKasami{41,true};
     suzukiKasami.addRequestSite(42);
     suzukiKasami.addRequestSite(43);
     suzukiKasami.addRequestSite(44);

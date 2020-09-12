@@ -6,7 +6,14 @@
 #include "test_suzuki-kasami.h"
 
 
-void runTestProgram();
+void runTestProgram(int numberProgram);
 
-void exampleProgram();
+void exampleProgram(int numberProgram);
+
+void testProgram1();
+void testProgram2();
+void testProgram3();
+
+void waitForOthers();
+void waitForSecs(int value);
 #endif

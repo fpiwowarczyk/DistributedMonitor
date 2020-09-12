@@ -1,6 +1,7 @@
 #include "./tests/test_monitor.h"
 #include "./tests/test_message.h"
 #include "./tests/test_suzuki-kasami.h"
+#include "./tests/test_program.h"
 #include <thread>
 #include <iostream>
 #include <vector>
@@ -30,25 +31,9 @@ int main(int argc,char **argv) {
       runMessageTests();
       runMonitorTests();
       runTestSuzukiKasami();
-   } else if(argv[1] == MONITOR_MANUAL){
-      int port = std::stoi(argv[2]);
-      std::vector<int> otherPorts{};
-
-      for(int i=3;i<argc;i++){
-         otherPorts.push_back(std::stoi(argv[i]));
-      }
-      Monitor monitor{port, otherPorts};
-      
-      std::cout<<"Press enter if others are ready:"<< std::endl;
-      std::cin.get();
-      std::cout<<std::endl;
-      std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-      monitor.enter(); // Try to enter critical section
-      std::cout<<"Doing smth in critical section"<<std::endl;
-      std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-      monitor.exit();
-
-
+   }else if(argv[1]==MONITOR_AUTO){
+      int numberProgram=std::stoi(argv[2]); //RUn as 1 2 3 in console
+      runTestProgram(numberProgram);
    }else {
        std::cout << "Invalid argument: " << argv[1] << std::endl;
     }

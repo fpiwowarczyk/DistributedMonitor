@@ -14,7 +14,7 @@
 class SuzukiKasami{
 
     public:
-        SuzukiKasami(int port);
+        SuzukiKasami(int port,bool hasToken);
         ~SuzukiKasami();
 
     //Messages
@@ -50,7 +50,7 @@ class SuzukiKasami{
         void *createZmqSocket(int type);
         void closeZmqSocket(void *socket);
     //Variables
-        void *ctx;
+        void *context;  
         int port;
         int id;
         Token token;

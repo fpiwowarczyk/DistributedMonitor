@@ -1,13 +1,13 @@
 #include "suzuki-kasami.h"
 
 SuzukiKasami::SuzukiKasami(int _port,bool _hasToken) :port{_port},hasToken{_hasToken}{
-    context = zmq_ctx_new();
+    ctx = zmq_ctx_new();
 }
 
-SuzukiKasami::~SuzukiKasami(){ zmq_ctx_destroy(context);}
+SuzukiKasami::~SuzukiKasami(){ zmq_ctx_destroy(ctx);}
 
 void *SuzukiKasami::createZmqSocket(int type){
-    void *newSocket = zmq_socket(context, type);
+    void *newSocket = zmq_socket(ctx, type);
     return newSocket;
 }
 
@@ -15,11 +15,9 @@ void *SuzukiKasami::createZmqSocket(int type){
 void SuzukiKasami::sendMessage(Message message, int _port){
     void *socket = createZmqSocket(ZMQ_REQ);
     std::string host = HOST_ADDRESS + std::to_string(_port);
-    std::cout<<host<<std::endl;
     if(zmq_connect(socket, host.c_str()) == 0){
         std::cout<< "Sending to "<<host <<": " << message<<std::endl;
         std::string serializedMessage = message.serializeMessage();
-        
         zmq_send(socket,serializedMessage.c_str(),serializedMessage.size(),0);
     }else {
         std::cout<<zmq_strerror(zmq_errno())<<std::endl;
@@ -45,7 +43,6 @@ void SuzukiKasami::receiveRequestMessage(Message message){
 }
 
 void SuzukiKasami::receiveTokenMessage(Message message){
-    // Message is MessageType,Port,LN,requestQueue
     std::cout<<"Received Token Message"<<std::endl;
     hasToken=true;
     token.updateToken(message);
@@ -72,11 +69,16 @@ void SuzukiKasami::exitCriticalSection(){
             token.updateLN(i);  
         }
     }
-    std::cout<<std::to_string(token.getRequestQueue().size());
-    sendTokenMessage();
 }
 
-
+bool SuzukiKasami::checkIfSendToken(){
+    if(token.getRequestQueue().size()>0){
+        std::cout<<std::to_string(token.getRequestQueue().size())<<std::endl;
+        return true;
+    } else {
+        return false;
+    }
+}
 void SuzukiKasami::sendRequestMessage(){
     incrementProcessRequestNumber();
     for (auto it = begin (RN); it != end (RN); ++it) {
@@ -103,18 +105,6 @@ void SuzukiKasami::incrementProcessRequestNumber(){
                 it->second++;
             }   
     }
-}
-
-std::pair<int,int> SuzukiKasami::getProcessIdAndRequestNumber(){
-    for (auto it = begin (RN); it != end (RN); ++it){
-        if(it->first==port){
-            int port=it->first;
-            int RN=it->second;
-            std::pair<int,int> output = std::make_pair(port,RN);
-            return output;
-        } 
-    }
-    return std::make_pair(-1,-1);
 }
 int SuzukiKasami::getPort(){return port;}
 

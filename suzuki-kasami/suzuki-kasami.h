@@ -40,7 +40,7 @@ class SuzukiKasami{
         bool getHasToken();
         Token getToken();
         std::vector<std::pair<int,int>> getRN();
-        std::pair<int,int> getProcessIdAndRequestNumber();
+        bool checkIfSendToken();
     private:
         void incrementProcessRequestNumber();
         
@@ -50,7 +50,7 @@ class SuzukiKasami{
         void *createZmqSocket(int type);
         void closeZmqSocket(void *socket);
     //Variables
-        void *context;  
+        void *ctx;  
         int port;
         int id;
         Token token;

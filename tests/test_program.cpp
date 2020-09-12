@@ -11,17 +11,17 @@ void exampleProgram(int numberProgram){
     } else if (numberProgram==2){
         testProgram2();
     } else if(numberProgram==3){
-        testProgram3();
+        //testProgram3();
     }
 }
 
 void testProgram1(){
     int port = 41;
-    std::vector<int> otherPorts{42,43};
+    std::vector<int> otherPorts{42};
     Monitor monitor{port,otherPorts,true}; //program with token
     waitForOthers();
     monitor.enter();// Critical section
-    waitForSecs(5);
+    waitForSecs(2);
     monitor.exit();
 
     monitor.enter();
@@ -44,7 +44,7 @@ void testProgram1(){
 
 void testProgram2(){
     int port = 42;
-    std::vector<int> otherPorts{41,43};
+    std::vector<int> otherPorts{41};
     Monitor monitor{port,otherPorts,false};
     waitForOthers();
     monitor.enter();

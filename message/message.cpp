@@ -77,8 +77,8 @@ void Message::deserializeMessage(std::string serializedMessage){
 
 std::ostream &operator<<(std::ostream &os, const Message &message) {
   os << "{" << std::endl;
-  os << "Port: " << message.port << std::endl;
   os << "Message type: " << message.messageType << std::endl;
+  os << "Port: " << message.port << std::endl;
   os << "}" << std::endl;
 
   return os;

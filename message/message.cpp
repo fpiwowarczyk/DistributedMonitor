@@ -9,7 +9,7 @@ Message::Message( MessageType  _messageType, int _port,int _sn, std::string _loc
                 : messageType{_messageType},port{_port},sn{_sn},lock{_lock}{ }
 
 Message::Message(MessageType _messageType, int _port, std::string _lock,
-                    std::vector<int> _LN,std::vector<int> _requestQueue):
+                    std::vector<int> _LN,std::queue<int> _requestQueue):
                     messageType{_messageType}, port{_port}, lock{_lock},
                     LN{_LN},requestQueue{_requestQueue}{ }
 
@@ -30,7 +30,7 @@ std::string Message::serializeMessageToken(){
     serialized += serializeField(std::to_string(port),false);
     serialized += serializeField(lock,false);
     serialized += serializeField(Utils::vectorToString(LN),false);
-    serialized += serializeField(Utils::vectorToString(requestQueue),true);
+    serialized += serializeField(Utils::queueToString(requestQueue),true);
 
     return serialized;
 }
@@ -69,7 +69,7 @@ void Message::deserializeMessage(std::string serializedMessage){
          std::vector<std::string> requestQueue_parts=
          Utils::splitString(s_requestQueue,';');
          for(std::string part:requestQueue_parts){
-             requestQueue.push_back(std::stoi(part));
+             requestQueue.push(std::stoi(part));
          }
     }else if(Type == "REQUEST"){ // Handle Request message
         messageType=stringToMessageType(fieldsValues[0]);
@@ -97,6 +97,6 @@ std::string Message::getLock(){return lock;}
 
 MessageType Message::getMessageType(){return messageType;}
 
-std::vector<int> Message::getRequestQueue(){return requestQueue;}
+std::queue<int> Message::getRequestQueue(){return requestQueue;}
 
 std::vector<int> Message::getLN(){return LN;}

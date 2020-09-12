@@ -11,10 +11,13 @@ class Token{
 
         void addRequestNumber();
         void addToQueue(int request);
-        void updateLastRequestNumber();
+        void updateToken(Message message);
         int removeFromQueue();
         void displayLastRequestNumbers();
 
+
+        std::vector<int> getLN();
+        std::queue<int> getRequestQueue();
     private :
         std::vector<int> LN;
         std::queue<int> requestQueue;

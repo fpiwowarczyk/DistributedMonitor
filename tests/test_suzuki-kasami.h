@@ -6,5 +6,6 @@
 
 void runTestSuzukiKasami();
 void getRequestMessages();
+void getTokenMessages();
 
 #endif

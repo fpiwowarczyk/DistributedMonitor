@@ -28,9 +28,11 @@ void Monitor::handleReceivingMessages(){
 
 
 void Monitor::enter(std::string lock){
-    suzukiKasami.sendRequestMessage(lock);
-    while(!suzukiKasami.canEnterCriticalSection(lock)){
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    if(!suzukiKasami.getHasToken()){
+        suzukiKasami.sendRequestMessage(lock);
+        while(!suzukiKasami.canEnterCriticalSection(lock)){
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
     }
     std::cout<<"Monitor withport: ["<<suzukiKasami.getPort()
             <<"] has entered the: ["<< lock<<"]"<<std::endl;

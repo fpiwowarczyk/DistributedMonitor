@@ -6,6 +6,7 @@
 #include <chrono>
 #include <random>
 #include <vector>
+#include <queue>
 
 class Message;
 
@@ -24,6 +25,8 @@ class Utils {
         static std::vector<std::string> splitString(const std::string &txt, char ch);
 
         static std::string vectorToString(std::vector<int> vec);
+
+        static std::string queueToString(std::queue<int> queue);
     private:
         Utils();
 

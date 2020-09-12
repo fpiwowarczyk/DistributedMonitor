@@ -42,7 +42,7 @@ void SuzukiKasami::receiveRequestMessage(Message message){
 void SuzukiKasami::receiveTokenMessage(Message message){
     // Message is MessageType,Port,Lock,LN,requestQueue
     hasToken=true;
-
+    token.updateToken(message);
 }
 
 
@@ -98,5 +98,9 @@ std::pair<int,int> SuzukiKasami::getProcessIdAndRequestNumber(){
     return std::make_pair(-1,-1);
 }
 int SuzukiKasami::getPort(){return port;}
+
+bool SuzukiKasami::getHasToken(){return hasToken;}
+
+Token SuzukiKasami::getToken(){return token;}
 
 std::vector<std::pair<int,int>> SuzukiKasami::getRN(){return RN;}

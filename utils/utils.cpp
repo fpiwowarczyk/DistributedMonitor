@@ -36,3 +36,15 @@ std::string Utils::vectorToString(std::vector<int> vec){
     output.pop_back(); // Remove last  ";" from string
     return output;
 }
+
+std::string Utils::queueToString(std::queue<int> queue){
+    std::string output ="";
+    std::queue<int> copy_queue =queue;
+    while(copy_queue.size()>0){
+        output+=std::to_string(copy_queue.front());
+        copy_queue.pop();
+        output+=";";
+    }
+    output.pop_back();//Remove last ";" from string
+    return output;
+}

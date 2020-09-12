@@ -7,8 +7,9 @@ void Token::addRequestNumber(){
     LN.push_back(0);
 }
 
-void Token::updateLastRequestNumber(){
-    std::cout<<"TODO"<<std::endl;
+void Token::updateToken(Message message){
+    LN = message.getLN();
+    requestQueue=message.getRequestQueue();
 }
 
 void Token::addToQueue(int request){
@@ -24,4 +25,8 @@ int Token::removeFromQueue(){
 void Token::displayLastRequestNumbers(){
     Utils::displayVector(LN);
 }
+
+std::vector<int> Token::getLN(){return LN;}
+
+std::queue<int> Token::getRequestQueue(){return requestQueue;}
 

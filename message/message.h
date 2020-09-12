@@ -5,6 +5,7 @@
 #include "messageType.h"
 #include <chrono>
 #include <vector>
+#include <queue>
 
 class Message  {
     public:
@@ -19,7 +20,7 @@ class Message  {
         Message(MessageType messageType,int port,int sn, std::string lock);
         Message(MessageType messageType,int port,
                 std::string lock,std::vector<int> LN,
-                std::vector<int> requestQueue);
+                std::queue<int> requestQueue);
         ~Message();
 
      //Getters
@@ -27,7 +28,7 @@ class Message  {
         int getPort();
         int getSn();
         std::string getLock();
-        std::vector<int> getRequestQueue();
+        std::queue<int> getRequestQueue();
         std::vector<int> getLN();
 
     private:
@@ -36,7 +37,7 @@ class Message  {
         int sn;
         std::string lock; // Lock which is requested
         std::vector<int> LN;
-        std::vector<int> requestQueue;
+        std::queue<int> requestQueue;
 
         std::string serializeMessageToken();
         std::string serializeMessageRequest();

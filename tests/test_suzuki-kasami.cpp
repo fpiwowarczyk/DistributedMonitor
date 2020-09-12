@@ -2,6 +2,7 @@
 
 void runTestSuzukiKasami(){
     getRequestMessages();
+    getTokenMessages();
 }
 
 void getRequestMessages(){
@@ -9,21 +10,55 @@ void getRequestMessages(){
     suzukiKasami.addRequestSite(42);
     suzukiKasami.addRequestSite(43);
     suzukiKasami.addRequestSite(44);
+    bool test1,test2,test3;
 
     Message message {MessageType::REQUEST,42,1,"lock"};
     suzukiKasami.receiveRequestMessage(message);
-    Message message1 {MessageType::REQUEST,43,1,"lock"};
-    suzukiKasami.receiveRequestMessage(message1);
-    Message message2 {MessageType::REQUEST,44,1,"lock"};
-    suzukiKasami.receiveRequestMessage(message2);
-    Message message3 {MessageType::REQUEST,42,2,"lock"};
-    suzukiKasami.receiveRequestMessage(message3);
-    Message message4 {MessageType::REQUEST,42,3,"lock"};
-    suzukiKasami.receiveRequestMessage(message4);
+    message ={MessageType::REQUEST,43,1,"lock"};
+    suzukiKasami.receiveRequestMessage(message);
+    message ={MessageType::REQUEST,44,1,"lock"};
+    suzukiKasami.receiveRequestMessage(message);
+    message ={MessageType::REQUEST,42,2,"lock"};
+    suzukiKasami.receiveRequestMessage(message);
+    message ={MessageType::REQUEST,42,3,"lock"};
+    suzukiKasami.receiveRequestMessage(message);
 
     for(std::pair<int,int> rn:suzukiKasami.getRN()){
-        std::cout<<"Port["<<rn.first<<"]:"<<rn.second<<std::endl;
+        if(rn.first==42&&rn.second==3) test1=true;
+        if(rn.first==43&&rn.second==1) test2=true;
+        if(rn.first==44&&rn.second==1) test3=true;
     }
+    if(test1&&test2&&test3){
+        std::cout<<"Receiving request messages properly:POSITIVE"<<std::endl;
+    } else {
+         std::cout<<"Receiving request messages properly:NEGATIVE"<<std::endl;
+    }
+}
+
+void getTokenMessages(){
+    std::vector<int> LN={1,0,0,0,0};
+    SuzukiKasami suzukiKasami{41};
+    suzukiKasami.addRequestSite(42);
+    suzukiKasami.addRequestSite(43);
+    suzukiKasami.addRequestSite(44);
+
+    std::queue<int> rq;
+    rq.push(3);
+    rq.push(2);
+    rq.push(1);
+    Message message {MessageType::TOKEN,42,"lock",LN,rq};
+    suzukiKasami.receiveTokenMessage(message);
+
+    Token token = suzukiKasami.getToken();
+    bool test1;
+    if(token.getLN()==LN&&token.getRequestQueue()==rq&&suzukiKasami.getHasToken()==true) test1=true;
+
+    if(test1){
+        std::cout<<"Receiving token messages properly:POSITIVE"<<std::endl;
+    } else {
+        std::cout<<"Receiving token messages properly:NEGATIVE"<<std::endl;
+    }
+    
 }
 
 

@@ -38,6 +38,8 @@ class SuzukiKasami{
         void receiveTokenMessage(Message message);
 
         int getPort();
+        bool getHasToken();
+        Token getToken();
         std::vector<std::pair<int,int>> getRN();
         std::pair<int,int> getProcessIdAndRequestNumber();
     private:

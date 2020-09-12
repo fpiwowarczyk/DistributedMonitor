@@ -27,6 +27,8 @@ class Utils {
         static std::string vectorToString(std::vector<int> vec);
 
         static std::string queueToString(std::queue<int> queue);
+
+        static bool isInQueue(std::queue<int> queue,int value);
     private:
         Utils();
 

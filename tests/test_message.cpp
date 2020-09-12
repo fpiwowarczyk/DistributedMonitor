@@ -22,9 +22,9 @@ bool is_serializedProperlyToken(){
     requestQueue.push(1);
 
     int port = 41;
-    Message mes{MessageType::TOKEN,port,"Lock",LN,requestQueue};
+    Message mes{MessageType::TOKEN,port,LN,requestQueue};
     std::string serializedMessage = mes.serializeMessage();
-    if(serializedMessage == "TOKEN,41,Lock,0;0;0;0;0,3;2;1"){
+    if(serializedMessage == "TOKEN,41,0;0;0;0;0,3;2;1"){
         return true;
     } else {
         return false;
@@ -34,9 +34,9 @@ bool is_serializedProperlyToken(){
 bool is_serializedProperlyRequest(){
     int port =41;
     int sn = 1;
-    Message mes{MessageType::REQUEST,port,sn,"Lock"};
+    Message mes{MessageType::REQUEST,port,sn};
     std::string serializedMessage = mes.serializeMessage();
-    if(serializedMessage == "REQUEST,41,1,Lock"){
+    if(serializedMessage == "REQUEST,41,1"){
          return true;
     } else {
         return false;
@@ -45,7 +45,7 @@ bool is_serializedProperlyRequest(){
 
 
 bool is_deserializedProperlyToken() {
-    std::string serializedMessage ="TOKEN,41,Lock,0;0;0;0;0,3;2;1";
+    std::string serializedMessage ="TOKEN,41,0;0;0;0;0,3;2;1";
     Message mes{serializedMessage};
     std::vector<int> LN = {0,0,0,0,0};
     std::queue<int> requestQueue;
@@ -54,7 +54,6 @@ bool is_deserializedProperlyToken() {
     requestQueue.push(1);
     if(mes.getMessageType()==MessageType::TOKEN&&
        mes.getPort()==41&&
-       mes.getLock()=="Lock"&&
        mes.getLN()==LN&&
        mes.getRequestQueue()==requestQueue)
        {
@@ -64,12 +63,11 @@ bool is_deserializedProperlyToken() {
 }
 
 bool is_deserializedProperlyRequest() {
-    std::string serializedMessage ="REQUEST,41,1,Lock";
+    std::string serializedMessage ="REQUEST,41,1";
     Message mes{serializedMessage};
     if(mes.getMessageType()==MessageType::REQUEST&&
        mes.getPort()==41&&
-       mes.getSn()==1&&
-       mes.getLock()=="Lock")
+       mes.getSn()==1)
        {
             return true;
        } else {

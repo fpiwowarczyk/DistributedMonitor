@@ -18,19 +18,18 @@ class SuzukiKasami{
         ~SuzukiKasami();
 
     //Messages
-        void sendRequestMessage(std::string lock);
-        void sendTokenMessage(std::string lock);
+        void sendRequestMessage();
+        void sendTokenMessage();
         
     //Portons on PORTS
 
-        void addRequestSite(int Port);
-        void removePortNumber(int port);
+        void addRequestSite(int port);
         
         
 
 
-        bool canEnterCriticalSection(std::string lock);
-        void exitCriticalSection(std::string lock);
+        bool canEnterCriticalSection();
+        void exitCriticalSection();
         void displayToken();
 
         //Message handling
@@ -58,7 +57,6 @@ class SuzukiKasami{
         bool hasToken;
     //Conteners
         std::vector<std::pair<int,int>> RN; // PORTS + Request Numbers
-        std::vector<int> ports;
 
 
 

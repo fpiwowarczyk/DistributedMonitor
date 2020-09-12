@@ -43,10 +43,13 @@ int main(int argc,char **argv) {
       std::cin.get();
       std::cout<<std::endl;
       std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-      monitor.enter("Lock1"); // Try to enter lock
-   } else if(argv[1]==MONITOR_AUTO){
-      std::cout<< "Right now nothing"<<std::endl;
-    } else {
+      monitor.enter(); // Try to enter critical section
+      std::cout<<"Doing smth in critical section"<<std::endl;
+      std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+      monitor.exit();
+
+
+   }else {
        std::cout << "Invalid argument: " << argv[1] << std::endl;
     }
 

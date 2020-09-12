@@ -12,15 +12,15 @@ void getRequestMessages(){
     suzukiKasami.addRequestSite(44);
     bool test1,test2,test3;
 
-    Message message {MessageType::REQUEST,42,1,"lock"};
+    Message message {MessageType::REQUEST,42,1};
     suzukiKasami.receiveRequestMessage(message);
-    message ={MessageType::REQUEST,43,1,"lock"};
+    message ={MessageType::REQUEST,43,1};
     suzukiKasami.receiveRequestMessage(message);
-    message ={MessageType::REQUEST,44,1,"lock"};
+    message ={MessageType::REQUEST,44,1};
     suzukiKasami.receiveRequestMessage(message);
-    message ={MessageType::REQUEST,42,2,"lock"};
+    message ={MessageType::REQUEST,42,2};
     suzukiKasami.receiveRequestMessage(message);
-    message ={MessageType::REQUEST,42,3,"lock"};
+    message ={MessageType::REQUEST,42,3};
     suzukiKasami.receiveRequestMessage(message);
 
     for(std::pair<int,int> rn:suzukiKasami.getRN()){
@@ -46,7 +46,8 @@ void getTokenMessages(){
     rq.push(3);
     rq.push(2);
     rq.push(1);
-    Message message {MessageType::TOKEN,42,"lock",LN,rq};
+    Message message {MessageType::TOKEN,42,LN,rq};
+
     suzukiKasami.receiveTokenMessage(message);
 
     Token token = suzukiKasami.getToken();

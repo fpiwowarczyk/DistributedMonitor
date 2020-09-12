@@ -17,9 +17,8 @@ class Message  {
         friend std::ostream &operator<<(std::ostream &os, const Message &message);
     //Constructors
         Message(std::string serializedMessage);
-        Message(MessageType messageType,int port,int sn, std::string lock);
-        Message(MessageType messageType,int port,
-                std::string lock,std::vector<int> LN,
+        Message(MessageType messageType,int port,int sn);
+        Message(MessageType messageType,int port,std::vector<int> LN,
                 std::queue<int> requestQueue);
         ~Message();
 
@@ -27,7 +26,6 @@ class Message  {
         MessageType getMessageType();
         int getPort();
         int getSn();
-        std::string getLock();
         std::queue<int> getRequestQueue();
         std::vector<int> getLN();
 
@@ -35,7 +33,6 @@ class Message  {
         MessageType messageType; // Token or Requests
         int port; // Port is an ID of requesting site 
         int sn;
-        std::string lock; // Lock which is requested
         std::vector<int> LN;
         std::queue<int> requestQueue;
 

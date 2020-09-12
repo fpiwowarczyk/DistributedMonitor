@@ -13,9 +13,9 @@ class Monitor {
     public:
         Monitor(int port, std::vector<int> otherPorts);
         ~Monitor();
-        void enter(std::string lock);
-        void wait(std::string lock);
-        void exit(std::string lock);
+        void enter();
+        void wait();
+        void exit();
         SuzukiKasami getSuzukiKasami();
     private:
         SuzukiKasami suzukiKasami;

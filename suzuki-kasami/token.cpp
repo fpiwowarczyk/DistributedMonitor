@@ -12,6 +12,9 @@ void Token::updateToken(Message message){
     requestQueue=message.getRequestQueue();
 }
 
+void Token::updateLN(int position){
+    LN[position]++;
+}
 void Token::addToQueue(int request){
     requestQueue.push(request);
 }

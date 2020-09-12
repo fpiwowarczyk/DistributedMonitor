@@ -5,7 +5,7 @@ MONITOR = ./monitor/monitor.cpp
 UTILS = ./utils/utils.cpp
 SUZUKI_KASAMI = ./suzuki-kasami/suzuki-kasami.cpp
 TOKEN = ./suzuki-kasami/token.cpp
-TEST= ./tests/test_monitor.cpp ./tests/test_message.cpp ./tests/test_suzuki-kasami.cpp
+TEST= ./tests/test_monitor.cpp ./tests/test_message.cpp ./tests/test_suzuki-kasami.cpp ./tests/test_program.cpp
 MAIN = ./main.cpp
 
 ALL = $(UTILS) $(MESSAGE) $(MONITOR) $(TOKEN) $(SUZUKI_KASAMI) $(TEST) $(MAIN)

@@ -40,7 +40,7 @@ void SuzukiKasami::receiveRequestMessage(Message message){
 }
 
 void SuzukiKasami::receiveTokenMessage(Message message){
-    // Message is MessageType,Port,Lock,LN,requestQueue
+    // Message is MessageType,Port,LN,requestQueue
     hasToken=true;
     token.updateToken(message);
 }
@@ -48,31 +48,36 @@ void SuzukiKasami::receiveTokenMessage(Message message){
 
 void SuzukiKasami::addRequestSite(int port){ RN.push_back(std::make_pair(port,0)); token.addRequestNumber();}
 
-void SuzukiKasami::removePortNumber(int port){
-    int index;
-    if((index = std::find(ports.begin(), ports.end(),port)!= ports.end())){
-        ports.erase(ports.begin()+index);
-    }
-}
 
-bool SuzukiKasami::canEnterCriticalSection(std::string lock){
+bool SuzukiKasami::canEnterCriticalSection(){
     return hasToken==true;
 }
 
+void SuzukiKasami::exitCriticalSection(){
+    hasToken=false;
+    std::vector<int> LN = token.getLN();    
+    for(int i=0;i<RN.size();i++){
+        if(RN[i].second==LN[i]+1){
+            if(!Utils::isInQueue(token.getRequestQueue(),i))
+                token.addToQueue(i);
+            token.updateLN(i);  
+        }
+    }
+    sendTokenMessage();
+}
 
 
-void SuzukiKasami::sendRequestMessage(std::string lock){
+void SuzukiKasami::sendRequestMessage(){
     incrementProcessRequestNumber();
     std::pair<int,int> toSend = getProcessIdAndRequestNumber(); // Port and Request Number
-    Message message{MessageType::REQUEST,toSend.first,toSend.second,lock}; 
+    Message message{MessageType::REQUEST,toSend.first,toSend.second}; 
     sendMessage(message,toSend.first);
 }
 
-void SuzukiKasami::sendTokenMessage(std::string lock){
-    // Token Message  "TOKEN,41,Lock,0;0;0;0;0,3;2;1"   
-    // TODO find out when it is sended 
-    Message message{MessageType::TOKEN,41,2,lock}; 
-    sendMessage(message,port);
+void SuzukiKasami::sendTokenMessage(){
+    int _port =token.removeFromQueue();
+    Message message{MessageType::TOKEN,_port,token.getLN(),token.getRequestQueue()}; 
+    sendMessage(message,_port);
 }
 
 void SuzukiKasami::displayToken(){std::cout<<"Token Last Request Numbers"<<std::endl;

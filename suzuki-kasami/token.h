@@ -12,6 +12,7 @@ class Token{
         void addRequestNumber();
         void addToQueue(int request);
         void updateToken(Message message);
+        void updateLN(int position);
         int removeFromQueue();
         void displayLastRequestNumbers();
 

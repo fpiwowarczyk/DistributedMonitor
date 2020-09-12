@@ -27,23 +27,26 @@ void Monitor::handleReceivingMessages(){
 }
 
 
-void Monitor::enter(std::string lock){
+void Monitor::enter(){
+
+    std::cout<<"Monitor withport: ["<<suzukiKasami.getPort()
+            <<"] has requested the critical section"<<std::endl;
     if(!suzukiKasami.getHasToken()){
-        suzukiKasami.sendRequestMessage(lock);
-        while(!suzukiKasami.canEnterCriticalSection(lock)){
+        suzukiKasami.sendRequestMessage();
+        while(!suzukiKasami.canEnterCriticalSection()){
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     }
     std::cout<<"Monitor withport: ["<<suzukiKasami.getPort()
-            <<"] has entered the: ["<< lock<<"]"<<std::endl;
+            <<"] has entered the critical section"<<std::endl;
 }
 
-void Monitor::exit(std::string lock){
-
+void Monitor::exit(){
+    suzukiKasami.exitCriticalSection();
 }
 
-void Monitor::wait(std::string lock){
-
+void Monitor::wait(){
+    std::this_thread::sleep_for(std::chrono::milliseconds(250));
 }
 Monitor::Monitor(int port, std::vector<int> otherPorts) :suzukiKasami(port){
     ctx  = zmq_ctx_new();

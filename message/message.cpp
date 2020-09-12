@@ -5,12 +5,12 @@
 Message::Message(std::string serializedMessage){
     deserializeMessage(serializedMessage);
 }
-Message::Message( MessageType  _messageType, int _port,int _sn, std::string _lock)
-                : messageType{_messageType},port{_port},sn{_sn},lock{_lock}{ }
+Message::Message( MessageType  _messageType, int _port,int _sn)
+                : messageType{_messageType},port{_port},sn{_sn}{ }
 
-Message::Message(MessageType _messageType, int _port, std::string _lock,
+Message::Message(MessageType _messageType, int _port,
                     std::vector<int> _LN,std::queue<int> _requestQueue):
-                    messageType{_messageType}, port{_port}, lock{_lock},
+                    messageType{_messageType}, port{_port},
                     LN{_LN},requestQueue{_requestQueue}{ }
 
 Message::~Message(){}
@@ -28,7 +28,6 @@ std::string Message::serializeMessageToken(){
     std::string serialized ="";
     serialized += serializeField(messageTypeToString(messageType),false);
     serialized += serializeField(std::to_string(port),false);
-    serialized += serializeField(lock,false);
     serialized += serializeField(Utils::vectorToString(LN),false);
     serialized += serializeField(Utils::queueToString(requestQueue),true);
 
@@ -38,8 +37,7 @@ std::string Message::serializeMessageRequest(){
     std::string serialized = "";
     serialized += serializeField(messageTypeToString(messageType),false);
     serialized += serializeField(std::to_string(port),false);
-    serialized += serializeField(std::to_string(sn),false);
-    serialized += serializeField(lock,true);
+    serialized += serializeField(std::to_string(sn),true);
     return serialized;
 }
 std::string Message::serializeField(std::string fieldValue,bool isLast){
@@ -57,9 +55,8 @@ void Message::deserializeMessage(std::string serializedMessage){
     if(Type == "TOKEN"){ // Handle Token Message
         messageType=stringToMessageType(fieldsValues[0]);
         port = std::stoi(fieldsValues[1]);
-        lock = fieldsValues[2];
-        std::string s_LN = fieldsValues[3];
-        std::string s_requestQueue = fieldsValues[4];
+        std::string s_LN = fieldsValues[2];
+        std::string s_requestQueue = fieldsValues[3];
 
         std::vector<std::string> LN_parts=
          Utils::splitString(s_LN,';');
@@ -74,15 +71,13 @@ void Message::deserializeMessage(std::string serializedMessage){
     }else if(Type == "REQUEST"){ // Handle Request message
         messageType=stringToMessageType(fieldsValues[0]);
         port = std::stoi(fieldsValues[1]);
-        sn=std::stoi(fieldsValues[2]);
-        lock = fieldsValues[3];
+        sn=std::stoi(fieldsValues[2]);;
     }
 }
 
 std::ostream &operator<<(std::ostream &os, const Message &message) {
   os << "{" << std::endl;
   os << "Port: " << message.port << std::endl;
-  os << "Memory Address: " << message.lock << std::endl;
   os << "Message type: " << message.messageType << std::endl;
   os << "}" << std::endl;
 
@@ -93,7 +88,6 @@ int Message::getPort() {return port;}
 
 int Message::getSn(){return sn;}
 
-std::string Message::getLock(){return lock;}
 
 MessageType Message::getMessageType(){return messageType;}
 

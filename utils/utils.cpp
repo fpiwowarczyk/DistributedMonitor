@@ -48,3 +48,14 @@ std::string Utils::queueToString(std::queue<int> queue){
     output.pop_back();//Remove last ";" from string
     return output;
 }
+
+bool Utils::isInQueue(std::queue<int> queue,int value){
+    int item;
+    while(queue.size()>0){
+        item = queue.front();
+        if(item==value) return true;
+        queue.pop();
+    }
+
+    return false;
+}

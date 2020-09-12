@@ -1,7 +1,6 @@
 #include "monitor.h"
 
 void Monitor::handleReceivingMessages(){
-    int len;
     std::cout<< "Handler function is initialized" <<std::endl;
     char *buffer = new char[BUFFER_SIZE];
     while(true){
@@ -54,8 +53,6 @@ Monitor::Monitor(int port, std::vector<int> otherPorts) :suzukiKasami(port){
     for(const int &otherPort : otherPorts) {
         suzukiKasami.addRequestSite(otherPort);
     }
-
-    suzukiKasami.displayToken();
     std::thread handlerThread(&Monitor::handleReceivingMessages,this);
     handlerThread.detach();
 }

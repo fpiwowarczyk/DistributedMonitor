@@ -8,9 +8,9 @@
 #include <vector>
 
 void runMessageTests();
-void is_serializedProperlyToken();
-void is_serializedProperlyRequest();
-void is_deserializedProperlyToken();
-void is_deserializedProperlyRequest();
+bool is_serializedProperlyToken();
+bool is_serializedProperlyRequest();
+bool is_deserializedProperlyToken();
+bool is_deserializedProperlyRequest();
 
 #endif

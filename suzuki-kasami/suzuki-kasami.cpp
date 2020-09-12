@@ -6,8 +6,18 @@ SuzukiKasami::~SuzukiKasami(){ zmq_ctx_destroy(ctx);}
 
 
 
-void SuzukiKasami::sendMessage(Message message, int port){
+void SuzukiKasami::sendMessage(Message message, int _port){
     void *socket = createZmqSocket(ZMQ_REQ);
+    std::string host = HOST_ADDRESS+std::to_string(_port);
+    if(zmq_connect(socket,host.c_str())==0){
+        std::cout<< "Sending to "<<host <<": " << message<<std::endl;
+        std::string serializedMessage = message.serializeMessage();
+        
+        zmq_send(socket,serializedMessage.c_str(),serializedMessage.size(),0);
+    }else {
+        std::cout<<zmq_strerror(zmq_errno())<<std::endl;
+    }
+    zmq_close(socket);
 }
 
 void *SuzukiKasami::createZmqSocket(int type){
@@ -20,7 +30,6 @@ void SuzukiKasami::closeZmqSocket(void *socket){
 }
 
 void SuzukiKasami::receiveRequestMessage(Message message){
-    // Message is MessageType,Port,SequenceNumber(SN),Lock
     for (auto it = begin (RN); it != end (RN); ++it) {
     if(it->first==message.getPort()){
             if(it->second<message.getSn()){
@@ -50,16 +59,44 @@ bool SuzukiKasami::canEnterCriticalSection(std::string lock){
     return hasToken==true;
 }
 
-int SuzukiKasami::getPort(){return port;}
 
-std::vector<std::pair<int,int>> SuzukiKasami::getRN(){return RN;}
 
-Message SuzukiKasami::sendRequestMessage(std::string lock){
-    Message message{MessageType::REQUEST,41,1,"Lock"}; // TODO
-    return message;
+void SuzukiKasami::sendRequestMessage(std::string lock){
+    incrementProcessRequestNumber();
+    std::pair<int,int> toSend = getProcessIdAndRequestNumber(); // Port and Request Number
+    Message message{MessageType::REQUEST,toSend.first,toSend.second,lock}; 
+    sendMessage(message,toSend.first);
+}
+
+void SuzukiKasami::sendTokenMessage(std::string lock){
+    // Token Message  "TOKEN,41,Lock,0;0;0;0;0,3;2;1"   
+    // TODO find out when it is sended 
+    Message message{MessageType::TOKEN,41,2,lock}; 
+    sendMessage(message,port);
 }
 
 void SuzukiKasami::displayToken(){std::cout<<"Token Last Request Numbers"<<std::endl;
 token.displayLastRequestNumbers();
 std::cout<<"Token Request Queue (if nothing its empty)"<<std::endl;
 }
+
+void SuzukiKasami::incrementProcessRequestNumber(){
+    for (auto it = begin (RN); it != end (RN); ++it) {
+        if(it->first==port){
+                it->second++;
+            }   
+    }
+}
+
+std::pair<int,int> SuzukiKasami::getProcessIdAndRequestNumber(){
+        for (auto it = begin (RN); it != end (RN); ++it){
+        if(it->first==port){
+                std::pair<int,int> output = std::make_pair(it->first,it->second);
+                return output;
+            } 
+    }
+    return std::make_pair(-1,-1);
+}
+int SuzukiKasami::getPort(){return port;}
+
+std::vector<std::pair<int,int>> SuzukiKasami::getRN(){return RN;}

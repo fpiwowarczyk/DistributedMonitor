@@ -1,39 +1,44 @@
 #include "test_message.h"
 
 void runMessageTests(){
-    is_serializedProperlyToken();
-    is_serializedProperlyRequest();
-    is_deserializedProperlyToken();
-    is_deserializedProperlyRequest();
+    bool test1=is_serializedProperlyToken();
+    bool test2=is_serializedProperlyRequest();
+    bool test3=is_deserializedProperlyToken();
+    bool test4=is_deserializedProperlyRequest();
+    if(test1&&test2&&test3&&test4){
+        std::cout<<"Messages tests:POSITIVE"<<std::endl;
+    } else {
+        std::cout<<"Messages tests:NEGATIVE"<<std::endl;
+    }
 }
 
-void is_serializedProperlyToken(){
+bool is_serializedProperlyToken(){
     std::vector<int> LN= {0,0,0,0,0};
     std::vector<int> RequestQueue = {3,2,1};
     int port = 41;
     Message mes{MessageType::TOKEN,port,"Lock",LN,RequestQueue};
-    std::string serializedMessage = mes.serializeMessageToken();
+    std::string serializedMessage = mes.serializeMessage();
     if(serializedMessage == "TOKEN,41,Lock,0;0;0;0;0,3;2;1"){
-        std::cout << "TokenIsSerializedProperly:POSITIVE"<<std::endl;
+        return true;
     } else {
-        std::cout << " TokenIsSerializedProperly:NEGATIVE"<<std::endl;
+        return false;
     }
 }
 
-void is_serializedProperlyRequest(){
+bool is_serializedProperlyRequest(){
     int port =41;
     int sn = 1;
     Message mes{MessageType::REQUEST,port,sn,"Lock"};
-    std::string serializedMessage = mes.serializeMessageRequest();
+    std::string serializedMessage = mes.serializeMessage();
     if(serializedMessage == "REQUEST,41,1,Lock"){
-        std::cout << "RequestIsSerializedProperly:POSITIVE"<<std::endl;
+         return true;
     } else {
-        std::cout << " RequestIsSerializedProperly:NEGATIVE"<<std::endl;
+        return false;
     }
 }
 
 
-void is_deserializedProperlyToken() {
+bool is_deserializedProperlyToken() {
     std::string serializedMessage ="TOKEN,41,Lock,0;0;0;0;0,3;2;1";
     Message mes{serializedMessage};
     std::vector<int> LN = {0,0,0,0,0};
@@ -44,12 +49,12 @@ void is_deserializedProperlyToken() {
        mes.getLN()==LN&&
        mes.getRequestQueue()==requestQueue)
        {
-           std::cout<<"TokenIsDeserializedProperly:POSITIVE"<<std::endl;
+            return true;
        }else {
-           std::cout<<"TokenIsDeserializedProperly:NEGATIVE"<<std::endl;} 
+           return false;} 
 }
 
-void is_deserializedProperlyRequest() {
+bool is_deserializedProperlyRequest() {
     std::string serializedMessage ="REQUEST,41,1,Lock";
     Message mes{serializedMessage};
     if(mes.getMessageType()==MessageType::REQUEST&&
@@ -57,9 +62,9 @@ void is_deserializedProperlyRequest() {
        mes.getSn()==1&&
        mes.getLock()=="Lock")
        {
-           std::cout<<"RequestIsDeserializedProperly:POSITIVE"<<std::endl;
+            return true;
        } else {
-           std::cout<<"RequestIsDeserializedProperly:NEGATIVE"<<std::endl;
+            return false;
        } 
 
 }

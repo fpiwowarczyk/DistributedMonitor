@@ -18,7 +18,8 @@ class SuzukiKasami{
         ~SuzukiKasami();
 
     //Messages
-        Message sendRequestMessage(std::string lock);
+        void sendRequestMessage(std::string lock);
+        void sendTokenMessage(std::string lock);
         
     //Portons on PORTS
 
@@ -38,7 +39,10 @@ class SuzukiKasami{
 
         int getPort();
         std::vector<std::pair<int,int>> getRN();
+        std::pair<int,int> getProcessIdAndRequestNumber();
     private:
+        void incrementProcessRequestNumber();
+        
     // Private Functions 
         void sendMessage(Message message, int port);
         //Socket operations 

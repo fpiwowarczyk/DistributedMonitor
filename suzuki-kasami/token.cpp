@@ -12,17 +12,16 @@ void Token::updateLastRequestNumber(){
 }
 
 void Token::addToQueue(int request){
-    requestQueue.push_back(request);
+    requestQueue.push(request);
 }
 
-void Token::removeFromQueue(){
-    requestQueue.erase(requestQueue.begin());
+int Token::removeFromQueue(){
+    int item = requestQueue.front();
+    requestQueue.pop();
+    return item;
 }
 
 void Token::displayLastRequestNumbers(){
     Utils::displayVector(LN);
-}
-void Token::displayQueue(){
-    Utils::displayVector(requestQueue);
 }
 

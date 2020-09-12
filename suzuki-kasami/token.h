@@ -3,18 +3,21 @@
 #include "../common/common.h"
 #include "../utils/utils.h"
 #include<vector>
+#include<queue>
 
 
 class Token{
     public:
-        std::vector<int> LN;
-        std::vector<int> requestQueue;
+
         void addRequestNumber();
         void addToQueue(int request);
         void updateLastRequestNumber();
-        void removeFromQueue();
+        int removeFromQueue();
         void displayLastRequestNumbers();
-        void displayQueue();
+
+    private :
+        std::vector<int> LN;
+        std::queue<int> requestQueue;
     };
 
 

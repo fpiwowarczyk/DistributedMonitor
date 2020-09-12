@@ -7,11 +7,22 @@ Message::Message(std::string serializedMessage){
 }
 Message::Message( MessageType  _messageType, int _port,int _sn, std::string _lock)
                 : messageType{_messageType},port{_port},sn{_sn},lock{_lock}{ }
+
 Message::Message(MessageType _messageType, int _port, std::string _lock,
                     std::vector<int> _LN,std::vector<int> _requestQueue):
                     messageType{_messageType}, port{_port}, lock{_lock},
                     LN{_LN},requestQueue{_requestQueue}{ }
-Message::~Message(){
+
+Message::~Message(){}
+
+std::string Message::serializeMessage(){
+        std::string serializedMessage="";
+        if(getMessageType()==MessageType::REQUEST){
+             serializedMessage += serializeMessageRequest();
+        } else if (getMessageType()==MessageType::TOKEN){
+             serializedMessage += serializeMessageToken();
+        }
+        return serializedMessage;
 }
 std::string Message::serializeMessageToken(){
     std::string serialized ="";
@@ -23,7 +34,6 @@ std::string Message::serializeMessageToken(){
 
     return serialized;
 }
-
 std::string Message::serializeMessageRequest(){
     std::string serialized = "";
     serialized += serializeField(messageTypeToString(messageType),false);

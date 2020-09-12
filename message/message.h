@@ -9,8 +9,8 @@
 class Message  {
     public:
     //Serialization
-        std::string serializeMessageToken();
-        std::string serializeMessageRequest();
+        std::string serializeMessage();
+
         void deserializeMessage(std::string serializedMessage);
     // I think i maight delete it
         friend std::ostream &operator<<(std::ostream &os, const Message &message);
@@ -31,14 +31,15 @@ class Message  {
         std::vector<int> getLN();
 
     private:
+        MessageType messageType; // Token or Requests
         int port; // Port is an ID of requesting site 
         int sn;
         std::string lock; // Lock which is requested
-        MessageType messageType; // Token or Requests
-        std::vector<int> requestQueue;
         std::vector<int> LN;
+        std::vector<int> requestQueue;
 
-
+        std::string serializeMessageToken();
+        std::string serializeMessageRequest();
         std::string serializeField(std::string fieldValue,bool isLast);
 };
 #endif

@@ -32,7 +32,13 @@ Monitor::Monitor(int port, std::vector<int> otherPorts,bool hasToken) :suzukiKas
     std::cout<<"Host for bind:"<<host<<std::endl;
     zmq_bind(receiveSocket,host.c_str());
     std::cout <<"Initialized with address: " << host << std::endl;
-    suzukiKasami.addRequestSite(port);
+    otherPorts.push_back(port);
+    std::cout<<"Before sorting:"<<std::endl;
+
+    Utils::displayVector(otherPorts);
+    otherPorts=Utils::sortVector(otherPorts);
+    std::cout<<"After sorting:"<<std::endl;
+    Utils::displayVector(otherPorts);
     for(const int &otherPort : otherPorts) {
         suzukiKasami.addRequestSite(otherPort);
     }
@@ -47,7 +53,7 @@ void Monitor::enter(){
     if(!suzukiKasami.getHasToken()){
         suzukiKasami.sendRequestMessage();
         while(!suzukiKasami.canEnterCriticalSection()){
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            wait();
         }
     }
     std::cout<<"Monitor withport: ["<<suzukiKasami.getPort()
@@ -55,15 +61,16 @@ void Monitor::enter(){
 }
 
 void Monitor::exit(){
+    std::cout<<"Monitor leaves ciritical section"<<std::endl;
     suzukiKasami.exitCriticalSection();
     while(!suzukiKasami.checkIfSendToken()){
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        wait();
     }
     suzukiKasami.sendTokenMessage();
 }
 
 void Monitor::wait(){
-    std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
 

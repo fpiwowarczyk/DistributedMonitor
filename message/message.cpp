@@ -29,8 +29,7 @@ std::string Message::serializeMessageToken(){
     serialized += serializeField(messageTypeToString(messageType),false);
     serialized += serializeField(std::to_string(port),false);
     serialized += serializeField(Utils::vectorToString(LN),false);
-    serialized += serializeField(Utils::queueToString(requestQueue),true);
-
+    serialized += serializeField(Utils::queueToString(requestQueue),true); // Failing 
     return serialized;
 }
 std::string Message::serializeMessageRequest(){
@@ -59,15 +58,19 @@ void Message::deserializeMessage(std::string serializedMessage){
         std::string s_requestQueue = fieldsValues[3];
 
         std::vector<std::string> LN_parts=
-         Utils::splitString(s_LN,';');
-         for(std::string part:LN_parts){
+        Utils::splitString(s_LN,';');
+        for(std::string part:LN_parts){
             LN.push_back(std::stoi(part));
-         }
-         std::vector<std::string> requestQueue_parts=
-         Utils::splitString(s_requestQueue,';');
-         for(std::string part:requestQueue_parts){
-             requestQueue.push(std::stoi(part));
-         }
+        }
+         
+        if(s_requestQueue!="null"){
+            std::vector<std::string> requestQueue_parts=
+            Utils::splitString(s_requestQueue,';');
+            for(std::string part:requestQueue_parts){
+                requestQueue.push(std::stoi(part));
+            }
+        }
+
     }else if(Type == "REQUEST"){ // Handle Request message
         messageType=stringToMessageType(fieldsValues[0]);
         port = std::stoi(fieldsValues[1]);

@@ -3,7 +3,7 @@
 
 #include "../suzuki-kasami/suzuki-kasami.h"
 
-void runTestSuzukiKasami();
+void runSuzukiKasamiTests();
 void getRequestMessages();
 void getTokenMessages();
 void isRequestMadeProperly();

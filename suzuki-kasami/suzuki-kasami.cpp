@@ -25,11 +25,6 @@ void SuzukiKasami::sendMessage(Message message, int _port){
     zmq_close(socket);
 }
 
-
-void SuzukiKasami::closeZmqSocket(void *socket){
-    zmq_close(socket);
-}
-
 void SuzukiKasami::receiveRequestMessage(Message message){
     std::cout<<"Received Request Message from:"<<std::to_string(message.getPort())<<std::endl;
 
@@ -42,44 +37,6 @@ void SuzukiKasami::receiveRequestMessage(Message message){
     }
 }
 
-void SuzukiKasami::receiveTokenMessage(Message message){
-    std::cout<<"Received Token Message form:"<<std::to_string(message.getPort())<<std::endl;
-    hasToken=true;
-    token.updateToken(message);
-}
-
-
-void SuzukiKasami::addRequestSite(int port){ RN.push_back(std::make_pair(port,0)); token.addRequestNumber();}
-
-
-bool SuzukiKasami::canEnterCriticalSection(){
-    if(hasToken==true)
-        return true;
-    else
-        return false;
-}
-
-void SuzukiKasami::exitCriticalSection(){
-    hasToken=false;
-    std::vector<int> LN = token.getLN();    
-    for(unsigned int i=0;i<RN.size();i++){
-        if(RN[i].second==LN[i]+1){
-            if(!Utils::isInQueue(token.getRequestQueue(),RN[i].first))
-                token.addToQueue(RN[i].first);
-            token.updateLN(i);  
-        }
-    }
-    token.printQueue();
-}
-
-bool SuzukiKasami::checkIfSendToken(){
-    if(token.getRequestQueue().size()>0){
-        std::cout<<std::to_string(token.getRequestQueue().size())<<std::endl;
-        return true;
-    } else {
-        return false;
-    }
-}
 void SuzukiKasami::sendRequestMessage(){
     incrementProcessRequestNumber();
     Message message = makeRequest();
@@ -94,40 +51,75 @@ void SuzukiKasami::sendRequestMessage(){
     
 }
 
-Message SuzukiKasami::makeRequest(){
+void SuzukiKasami::sendTokenMessage(){
+    hasToken=false;
+    int _port = token.removeFromQueue();
+    Message message{MessageType::TOKEN,_port,token.getLN(),token.getRequestQueue()}; 
+    sendMessage(message,_port);
+}
 
+void SuzukiKasami::receiveTokenMessage(Message message){
+    std::cout<<"Received Token Message form:"<<std::to_string(message.getPort())<<std::endl;
+    hasToken=true;
+    token.updateToken(message);
+}
+
+bool SuzukiKasami::checkIfSendToken(){
+    if(token.getRequestQueue().size()>0){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
+void SuzukiKasami::addRequestSite(int port){
+    RN.push_back(std::make_pair(port,0));
+    token.addRequestNumber();
+}
+
+
+bool SuzukiKasami::canEnterCriticalSection(){
+    if(hasToken==true)
+        return true;
+    else
+        return false;
+}
+
+void SuzukiKasami::exitCriticalSection(){
+    std::vector<int> LN = token.getLN();    
     for(unsigned int i=0;i<RN.size();i++){
-        std::cout<<RN[i].first<<std::endl;
+        if(RN[i].second==LN[i]+1){
+            if(!Utils::isInQueue(token.getRequestQueue(),RN[i].first)){
+                token.addToQueue(RN[i].first);
+            }
+
+            token.updateLN(i);  
+        }
+    }
+    token.printQueue();
+}
+
+Message SuzukiKasami::makeRequest(){
+    for(unsigned int i=0;i<RN.size();i++){
         if(RN[i].first==port){
-            std::cout<<"Getting in here"<<std::endl;
             Message message{MessageType::REQUEST,port,RN[i].second};
             return message;
         }
     }
     Message badMessage{MessageType::REQUEST,0,0};
-    return badMessage;
-    
-}
-
-void SuzukiKasami::sendTokenMessage(){
-    int _port =token.removeFromQueue();
-    Message message{MessageType::TOKEN,_port,token.getLN(),token.getRequestQueue()}; 
-    sendMessage(message,_port);
-}
-
-void SuzukiKasami::displayToken(){std::cout<<"Token Last Request Numbers"<<std::endl;
-token.displayLastRequestNumbers();
-std::cout<<"Token Request Queue (if nothing its empty)"<<std::endl;
+    return badMessage;  
 }
 
 void SuzukiKasami::incrementProcessRequestNumber(){
     for (auto it = begin (RN); it != end (RN); ++it) {
         if(it->first==port){
-                it->second++;
-                std::cout<<"Incremented value:"<<it->second<<std::endl;
-            } 
+            it->second++;
+        } 
     }
 }
+
 int SuzukiKasami::getPort(){return port;}
 
 bool SuzukiKasami::getHasToken(){return hasToken;}

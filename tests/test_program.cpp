@@ -20,26 +20,22 @@ void testProgram1(){
     std::vector<int> otherPorts{12346,12347};
     Monitor monitor{port,otherPorts,true}; //program with token
     waitForOthers();
-    monitor.enter();// Critical section
-    waitForSecs(2);
-    monitor.exit();
-
+    std::cout<<"Program1: Task1"<<std::endl;
     monitor.enter();
-    waitForSecs(5);
+    waitForSecs(1);
     monitor.exit();
 
+    std::cout<<"Program1: Task2"<<std::endl;
     monitor.enter();
-    waitForSecs(5);
+    waitForSecs(1);
     monitor.exit();
 
+        std::cout<<"Program1: Task3"<<std::endl;
     monitor.enter();
-    waitForSecs(5);
+    waitForSecs(1);
     monitor.exit();
 
-    monitor.enter();
-    waitForSecs(5);
-    monitor.exit();
-
+    std::cout<<"Done for 1 program"<<std::endl;
 }
 
 void testProgram2(){
@@ -47,21 +43,26 @@ void testProgram2(){
     std::vector<int> otherPorts{12345,12347};
     Monitor monitor{port,otherPorts,false};
     waitForOthers();
-    monitor.enter();
-    waitForSecs(5);
-    monitor.exit();
+    std::cout<<"Program2: Task1"<<std::endl;
+        monitor.enter();
+        waitForSecs(1);
+        monitor.exit();
 
-    monitor.enter();
-    waitForSecs(5);
-    monitor.exit();
+    std::cout<<"Program2: Task2"<<std::endl;
+        monitor.enter();
+        waitForSecs(1);
+        monitor.exit();
 
-    monitor.enter();
-    waitForSecs(5);
-    monitor.exit();
+    std::cout<<"Program2: Task3"<<std::endl;
+        monitor.enter();
+        waitForSecs(1);
+        monitor.exit();
 
-    monitor.enter();
-    waitForSecs(5);
-    monitor.exit();
+    std::cout<<"Program2: Task4"<<std::endl;
+        monitor.enter();
+        waitForSecs(1);
+        monitor.exit();
+    std::cout<<"Done for 2 program"<<std::endl;
 }
 
 void testProgram3(){
@@ -69,21 +70,23 @@ void testProgram3(){
     std::vector<int> otherPorts{12345,12346};
     Monitor monitor{port,otherPorts,false};
     waitForOthers();
-    monitor.enter();
-    waitForSecs(5);
-    monitor.exit();
-
-    monitor.enter();
-    waitForSecs(5);
-    monitor.exit();
-
-    monitor.enter();
-    waitForSecs(5);
-    monitor.exit();
-
-    monitor.enter();
-    waitForSecs(5);
-    monitor.exit();
+    std::cout<<"Program3: Task1"<<std::endl;
+        monitor.enter();
+        waitForSecs(1);
+        monitor.exit();
+    std::cout<<"Program3: Task2"<<std::endl;
+        monitor.enter();
+        waitForSecs(1);
+        monitor.exit();
+    std::cout<<"Program3: Task3"<<std::endl;
+        monitor.enter();
+        waitForSecs(1);
+        monitor.exit();
+    std::cout<<"Program3: Task4"<<std::endl;
+        monitor.enter();
+        waitForSecs(1);
+        monitor.exit();
+    std::cout<<"Done for 3 program"<<std::endl;
 }
 
 void waitForOthers(){

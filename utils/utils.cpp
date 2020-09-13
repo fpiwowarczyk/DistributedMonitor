@@ -39,6 +39,9 @@ std::string Utils::vectorToString(std::vector<int> vec){
 
 std::string Utils::queueToString(std::queue<int> queue){
     std::string output ="";
+    if(queue.size()==0){
+        return "null";
+    }
     std::queue<int> copy_queue =queue;
     while(copy_queue.size()>0){
         output+=std::to_string(copy_queue.front());
@@ -58,4 +61,12 @@ bool Utils::isInQueue(std::queue<int> queue,int value){
     }
 
     return false;
+}
+
+std::vector<int> Utils::sortVector(std::vector<int> vec){
+    std::sort(vec.begin(), vec.end(), [](int a, int b){
+        return b>a; 
+    });
+
+    return vec;
 }

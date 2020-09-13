@@ -14,7 +14,7 @@ Add Monitor object into your code. Use Monitor.enter() and Monitor.exit() to mar
 * Object.wait() - program will wait while wait is constantly being called.
 
 ## Test Program
-Program with an example of working monitor have 3 processes which communicate with each other and using critical section. To run it:
+My code include example use of Monitor inside test_Program.cpp. To run it:
 * Compile whole project *make*
 Run program: 
 - [console1] -./a.out auto 1 

@@ -30,7 +30,6 @@ class SuzukiKasami{
 
         bool canEnterCriticalSection();
         void exitCriticalSection();
-        void displayToken();
 
         //Message handling
         void receiveRequestMessage(Message message);
@@ -49,7 +48,6 @@ class SuzukiKasami{
         void sendMessage(Message message, int port);
         //Socket operations 
         void *createZmqSocket(int type);
-        void closeZmqSocket(void *socket);
     //Variables
         void *ctx;  
         int port;

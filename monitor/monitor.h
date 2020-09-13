@@ -2,7 +2,7 @@
 #define MONITOR_H
 #include "../suzuki-kasami/suzuki-kasami.h"
 #include "../common/common.h"
-
+#include "../utils/utils.h"
 #include"zmq.h"
 #include<cstring>
 #include<thread>

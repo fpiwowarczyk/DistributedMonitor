@@ -2,6 +2,7 @@
 #include "./tests/test_message.h"
 #include "./tests/test_suzuki-kasami.h"
 #include "./tests/test_program.h"
+#include "./tests/test_token.h"
 #include <thread>
 #include <iostream>
 #include <vector>
@@ -28,9 +29,10 @@ int main(int argc,char **argv) {
    }
 
    if (argv[1] == TEST){
-     // runMessageTests();
+      //runMessageTests();
       //runMonitorTests();
-      runTestSuzukiKasami();
+      //runSuzukiKasamiTests();
+      runTokenTests();
    }else if(argv[1]==MONITOR_AUTO){
       int numberProgram=std::stoi(argv[2]); //RUn as 1 2 3 in console
       runTestProgram(numberProgram);

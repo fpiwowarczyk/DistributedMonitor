@@ -1,6 +1,6 @@
 #include "test_suzuki-kasami.h"
 
-void runTestSuzukiKasami(){
+void runSuzukiKasamiTests(){
     getRequestMessages();
     getTokenMessages();
     isRequestMadeProperly();

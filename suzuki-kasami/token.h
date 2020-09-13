@@ -15,7 +15,7 @@ class Token{
         void updateLN(int position);
         int removeFromQueue();
         void displayLastRequestNumbers();
-
+        void printQueue();
 
         std::vector<int> getLN();
         std::queue<int> getRequestQueue();

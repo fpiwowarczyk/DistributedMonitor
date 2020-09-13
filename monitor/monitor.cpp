@@ -6,10 +6,9 @@ void Monitor::handleReceivingMessages(){
   while (true) {
     memset(buffer, 0, BUFFER_SIZE);
     if (zmq_recv(receiveSocket, buffer, BUFFER_SIZE, 0) > -1) {
-      std::cout<<"Got message"<<std::endl;
-      zmq_send(receiveSocket, "", 0, 0);
-      std::string serializedMessage =
-          std::string(reinterpret_cast<char const *>(buffer),
+        zmq_send(receiveSocket, "", 0, 0);
+        std::string serializedMessage =
+            std::string(reinterpret_cast<char const *>(buffer),
                       std::char_traits<char>::length(buffer));
 
       Message message{serializedMessage};
@@ -30,8 +29,10 @@ Monitor::Monitor(int port, std::vector<int> otherPorts,bool hasToken) :suzukiKas
     ctx  = zmq_ctx_new();
     receiveSocket = zmq_socket(ctx,ZMQ_REP);
     std::string host = HOST_ADDRESS+std::to_string(port);
+    std::cout<<"Host for bind:"<<host<<std::endl;
     zmq_bind(receiveSocket,host.c_str());
     std::cout <<"Initialized with address: " << host << std::endl;
+    suzukiKasami.addRequestSite(port);
     for(const int &otherPort : otherPorts) {
         suzukiKasami.addRequestSite(otherPort);
     }
@@ -46,7 +47,6 @@ void Monitor::enter(){
     if(!suzukiKasami.getHasToken()){
         suzukiKasami.sendRequestMessage();
         while(!suzukiKasami.canEnterCriticalSection()){
-            std::cout<<"Process is waiting for Token"<<std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     }
@@ -57,7 +57,6 @@ void Monitor::enter(){
 void Monitor::exit(){
     suzukiKasami.exitCriticalSection();
     while(!suzukiKasami.checkIfSendToken()){
-        std::cout<<"Waiting for requests"<<std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
     suzukiKasami.sendTokenMessage();
@@ -69,6 +68,7 @@ void Monitor::wait(){
 
 
 Monitor::~Monitor(){
+    std::cout<<"Monitor destroyed"<<std::endl;
     zmq_close(receiveSocket);
     destoryCtx();
 }

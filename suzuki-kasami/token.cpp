@@ -25,6 +25,15 @@ int Token::removeFromQueue(){
     return item;
 }
 
+void Token::printQueue(){
+    std::queue<int> cpy_q = requestQueue;
+    std::cout<<"Token Queue:"<<std::endl;
+    for(unsigned int i=0;i<cpy_q.size();i++){
+        std::cout<<"["<<i<<"]"<<std::to_string(cpy_q.front())<<std::endl;
+        cpy_q.pop();
+    }
+}
+
 void Token::displayLastRequestNumbers(){
     Utils::displayVector(LN);
 }

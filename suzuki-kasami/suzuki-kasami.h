@@ -42,6 +42,7 @@ class SuzukiKasami{
         std::vector<std::pair<int,int>> getRN();
         bool checkIfSendToken();
     private:
+        Message makeRequest();
         void incrementProcessRequestNumber();
         
     // Private Functions 

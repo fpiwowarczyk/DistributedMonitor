@@ -16,8 +16,8 @@ void SuzukiKasami::sendMessage(Message message, int _port){
     void *socket = createZmqSocket(ZMQ_REQ);
     std::string host = HOST_ADDRESS + std::to_string(_port);
     if(zmq_connect(socket, host.c_str()) == 0){
-        std::cout<< "Sending to "<<host <<": " << message<<std::endl;
         std::string serializedMessage = message.serializeMessage();
+        std::cout<< "Sending to "<<host <<": " << serializedMessage<<std::endl;
         zmq_send(socket,serializedMessage.c_str(),serializedMessage.size(),0);
     }else {
         std::cout<<zmq_strerror(zmq_errno())<<std::endl;
@@ -31,7 +31,7 @@ void SuzukiKasami::closeZmqSocket(void *socket){
 }
 
 void SuzukiKasami::receiveRequestMessage(Message message){
-    std::cout<<"Received Request Message"<<std::endl;
+    std::cout<<"Received Request Message from:"<<std::to_string(message.getPort())<<std::endl;
 
     for (auto it = begin (RN); it != end (RN); ++it) {
     if(it->first==message.getPort()){
@@ -43,7 +43,7 @@ void SuzukiKasami::receiveRequestMessage(Message message){
 }
 
 void SuzukiKasami::receiveTokenMessage(Message message){
-    std::cout<<"Received Token Message"<<std::endl;
+    std::cout<<"Received Token Message form:"<<std::to_string(message.getPort())<<std::endl;
     hasToken=true;
     token.updateToken(message);
 }
@@ -64,11 +64,12 @@ void SuzukiKasami::exitCriticalSection(){
     std::vector<int> LN = token.getLN();    
     for(unsigned int i=0;i<RN.size();i++){
         if(RN[i].second==LN[i]+1){
-            if(!Utils::isInQueue(token.getRequestQueue(),i))
-                token.addToQueue(i);
+            if(!Utils::isInQueue(token.getRequestQueue(),RN[i].first))
+                token.addToQueue(RN[i].first);
             token.updateLN(i);  
         }
     }
+    token.printQueue();
 }
 
 bool SuzukiKasami::checkIfSendToken(){
@@ -81,11 +82,31 @@ bool SuzukiKasami::checkIfSendToken(){
 }
 void SuzukiKasami::sendRequestMessage(){
     incrementProcessRequestNumber();
+    Message message = makeRequest();
     for (auto it = begin (RN); it != end (RN); ++it) {
         std::pair<int,int> toSend = std::make_pair(it->first,it->second);
-        Message message{MessageType::REQUEST,toSend.first,toSend.second}; 
-        sendMessage(message,toSend.first);
+        if(toSend.first==port){
+            continue;
+        }
+        
+        sendMessage(message,toSend.first);   
     } 
+    
+}
+
+Message SuzukiKasami::makeRequest(){
+
+    for(unsigned int i=0;i<RN.size();i++){
+        std::cout<<RN[i].first<<std::endl;
+        if(RN[i].first==port){
+            std::cout<<"Getting in here"<<std::endl;
+            Message message{MessageType::REQUEST,port,RN[i].second};
+            return message;
+        }
+    }
+    Message badMessage{MessageType::REQUEST,0,0};
+    return badMessage;
+    
 }
 
 void SuzukiKasami::sendTokenMessage(){
@@ -103,7 +124,8 @@ void SuzukiKasami::incrementProcessRequestNumber(){
     for (auto it = begin (RN); it != end (RN); ++it) {
         if(it->first==port){
                 it->second++;
-            }   
+                std::cout<<"Incremented value:"<<it->second<<std::endl;
+            } 
     }
 }
 int SuzukiKasami::getPort(){return port;}

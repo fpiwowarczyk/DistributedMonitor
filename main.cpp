@@ -28,8 +28,8 @@ int main(int argc,char **argv) {
    }
 
    if (argv[1] == TEST){
-      runMessageTests();
-      runMonitorTests();
+     // runMessageTests();
+      //runMonitorTests();
       runTestSuzukiKasami();
    }else if(argv[1]==MONITOR_AUTO){
       int numberProgram=std::stoi(argv[2]); //RUn as 1 2 3 in console

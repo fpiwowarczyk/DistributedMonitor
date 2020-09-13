@@ -3,6 +3,7 @@
 void runTestSuzukiKasami(){
     getRequestMessages();
     getTokenMessages();
+    isRequestMadeProperly();
 }
 
 void getRequestMessages(){
@@ -62,4 +63,14 @@ void getTokenMessages(){
     
 }
 
+void isRequestMadeProperly(){
+    std::cout<<"Testing making requests"<<std::endl;
+    std::vector<int> LN={0,0,0,0};
+    SuzukiKasami suzukiKasami{41,true};
+    suzukiKasami.addRequestSite(41);
+    suzukiKasami.addRequestSite(42);
+    suzukiKasami.addRequestSite(43);
+    suzukiKasami.addRequestSite(44);
 
+    suzukiKasami.sendRequestMessage();
+}

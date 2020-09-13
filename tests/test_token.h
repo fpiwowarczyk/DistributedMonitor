@@ -2,6 +2,7 @@
 #define TEST_TOKEN
 #include "../common/common.h"
 #include "../suzuki-kasami/token.h"
+
 void runTokenTests();
 
 void testQueuePrinting();

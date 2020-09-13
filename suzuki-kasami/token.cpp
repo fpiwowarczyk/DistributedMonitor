@@ -1,29 +1,17 @@
 #include "token.h"
 
-
-//------------------------ TOKEN
-
-void Token::addRequestNumber(){
-    LN.push_back(0);
-}
-
 void Token::updateToken(Message message){
     LN = message.getLN();
     requestQueue=message.getRequestQueue();
 }
 
-void Token::updateLN(int position){
-    LN[position]++;
+void Token::addRequestNumber(){
+    LN.push_back(0);
 }
+
 void Token::addToQueue(int request){
     std::cout<<"Add to queue request:"<<request<<std::endl;
     requestQueue.push(request);
-}
-
-int Token::removeFromQueue(){
-    int item = requestQueue.front();
-    requestQueue.pop();
-    return item;
 }
 
 void Token::printQueue(){
@@ -33,6 +21,16 @@ void Token::printQueue(){
         std::cout<<"["<<i<<"]"<<std::to_string(cpy_q.front())<<std::endl;
         cpy_q.pop();
     }
+}
+
+int Token::removeFromQueue(){
+    int item = requestQueue.front();
+    requestQueue.pop();
+    return item;
+}
+
+void Token::updateLN(int position){
+    LN[position]++;
 }
 
 void Token::displayLastRequestNumbers(){

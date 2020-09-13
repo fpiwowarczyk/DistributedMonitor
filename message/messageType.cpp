@@ -23,8 +23,3 @@ MessageType stringToMessageType(const std::string &s_messageType){
     else
         return MessageType::REQUEST;
 }
-
-std::ostream &operator <<(std::ostream &os,const MessageType &messageType){
-    os<<messageTypeToString(messageType);
-    return os;
-}

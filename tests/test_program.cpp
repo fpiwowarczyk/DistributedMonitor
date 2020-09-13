@@ -11,7 +11,7 @@ void exampleProgram(int numberProgram){
     } else if (numberProgram==2){
         testProgram2();
     } else if(numberProgram==3){
-        testProgram3();
+        //testProgram3();
     }
 }
 
@@ -21,19 +21,19 @@ void testProgram1(){
     Monitor monitor{port,otherPorts,true}; //program with token
     waitForOthers();
     std::cout<<"Program1: Task1"<<std::endl;
-    monitor.enter();
-    waitForSecs(1);
-    monitor.exit();
+        monitor.enter();
+        waitForSecs(1);
+        monitor.exit();
 
     std::cout<<"Program1: Task2"<<std::endl;
-    monitor.enter();
-    waitForSecs(1);
-    monitor.exit();
+        monitor.enter();
+        waitForSecs(1);
+        monitor.exit();
 
-        std::cout<<"Program1: Task3"<<std::endl;
-    monitor.enter();
-    waitForSecs(1);
-    monitor.exit();
+    std::cout<<"Program1: Task3"<<std::endl;
+        monitor.enter();
+        waitForSecs(1);
+        monitor.exit();
 
     std::cout<<"Done for 1 program"<<std::endl;
 }
@@ -99,7 +99,6 @@ void waitForOthers(){
 void waitForSecs(int value){
     std::cout<<"Have Token"<<std::endl;
     for(int i =0;i<=value;i++){
-    
         std::this_thread::sleep_for(std::chrono::milliseconds(1000)); 
     }
 }

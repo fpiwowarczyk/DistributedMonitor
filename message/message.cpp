@@ -5,6 +5,7 @@
 Message::Message(std::string serializedMessage){
     deserializeMessage(serializedMessage);
 }
+
 Message::Message( MessageType  _messageType, int _port,int _sn)
                 : messageType{_messageType},port{_port},sn{_sn}{ }
 
@@ -12,8 +13,6 @@ Message::Message(MessageType _messageType, int _port,
                     std::vector<int> _LN,std::queue<int> _requestQueue):
                     messageType{_messageType}, port{_port},
                     LN{_LN},requestQueue{_requestQueue}{ }
-
-Message::~Message(){}
 
 std::string Message::serializeMessage(){
         std::string serializedMessage="";
@@ -24,23 +23,10 @@ std::string Message::serializeMessage(){
         }
         return serializedMessage;
 }
-std::string Message::serializeMessageToken(){
-    std::string serialized ="";
-    serialized += serializeField(messageTypeToString(messageType),false);
-    serialized += serializeField(std::to_string(port),false);
-    serialized += serializeField(Utils::vectorToString(LN),false);
-    serialized += serializeField(Utils::queueToString(requestQueue),true); // Failing 
-    return serialized;
-}
-std::string Message::serializeMessageRequest(){
-    std::string serialized = "";
-    serialized += serializeField(messageTypeToString(messageType),false);
-    serialized += serializeField(std::to_string(port),false);
-    serialized += serializeField(std::to_string(sn),true);
-    return serialized;
-}
-std::string Message::serializeField(std::string fieldValue,bool isLast){
-    switch(isLast){
+
+
+std::string Message::serializeField(std::string fieldValue,bool Last){
+    switch(Last){
         case false:
             return fieldValue +",";
         case true:
@@ -78,22 +64,29 @@ void Message::deserializeMessage(std::string serializedMessage){
     }
 }
 
-std::ostream &operator<<(std::ostream &os, const Message &message) {
-  os << "{" << std::endl;
-  os << "Message type: " << message.messageType << std::endl;
-  os << "Port: " << message.port << std::endl;
-  os << "}" << std::endl;
 
-  return os;
-}
-// Getters
+MessageType Message::getMessageType(){return messageType;}
+
 int Message::getPort() {return port;}
 
 int Message::getSn(){return sn;}
 
-
-MessageType Message::getMessageType(){return messageType;}
+std::vector<int> Message::getLN(){return LN;}
 
 std::queue<int> Message::getRequestQueue(){return requestQueue;}
 
-std::vector<int> Message::getLN(){return LN;}
+std::string Message::serializeMessageToken(){
+    std::string serialized ="";
+    serialized += serializeField(messageTypeToString(messageType),false);
+    serialized += serializeField(std::to_string(port),false);
+    serialized += serializeField(Utils::vectorToString(LN),false);
+    serialized += serializeField(Utils::queueToString(requestQueue),true); // Failing 
+    return serialized;
+}
+std::string Message::serializeMessageRequest(){
+    std::string serialized = "";
+    serialized += serializeField(messageTypeToString(messageType),false);
+    serialized += serializeField(std::to_string(port),false);
+    serialized += serializeField(std::to_string(sn),true);
+    return serialized;
+}

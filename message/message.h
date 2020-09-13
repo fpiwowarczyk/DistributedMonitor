@@ -9,35 +9,30 @@
 
 class Message  {
     public:
-    //Serialization
-        std::string serializeMessage();
-
-        void deserializeMessage(std::string serializedMessage);
-    // I think i maight delete it
-        friend std::ostream &operator<<(std::ostream &os, const Message &message);
-    //Constructors
         Message(std::string serializedMessage);
         Message(MessageType messageType,int port,int sn);
         Message(MessageType messageType,int port,std::vector<int> LN,
                 std::queue<int> requestQueue);
-        ~Message();
 
-     //Getters
+        std::string serializeMessage();
+
+        void deserializeMessage(std::string serializedMessage);
+
+
         MessageType getMessageType();
         int getPort();
         int getSn();
-        std::queue<int> getRequestQueue();
         std::vector<int> getLN();
-
+        std::queue<int> getRequestQueue();
     private:
-        MessageType messageType; // Token or Requests
-        int port; // Port is an ID of requesting site 
+        MessageType messageType;
+        int port;  
         int sn;
         std::vector<int> LN;
         std::queue<int> requestQueue;
 
         std::string serializeMessageToken();
         std::string serializeMessageRequest();
-        std::string serializeField(std::string fieldValue,bool isLast);
+        std::string serializeField(std::string fieldValue,bool Last);
 };
 #endif

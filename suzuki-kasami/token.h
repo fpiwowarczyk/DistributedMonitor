@@ -9,14 +9,16 @@
 class Token{
     public:
 
+        void updateToken(Message message);
+
         void addRequestNumber();
         void addToQueue(int request);
-        void updateToken(Message message);
-        void updateLN(int position);
-        int removeFromQueue();
-        void displayLastRequestNumbers();
         void printQueue();
+        int removeFromQueue();
 
+        void updateLN(int position);
+        void displayLastRequestNumbers();
+        
         std::vector<int> getLN();
         std::queue<int> getRequestQueue();
     private :

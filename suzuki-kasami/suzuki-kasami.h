@@ -17,49 +17,38 @@ class SuzukiKasami{
         SuzukiKasami(int port,bool hasToken);
         ~SuzukiKasami();
 
-    //Messages
         void sendRequestMessage();
         void sendTokenMessage();
         
-    //Portons on PORTS
+        void receiveRequestMessage(Message message);
+        void receiveTokenMessage(Message message);
 
         void addRequestSite(int port);
-        
-        
-
 
         bool canEnterCriticalSection();
         void exitCriticalSection();
 
-        //Message handling
-        void receiveRequestMessage(Message message);
-        void receiveTokenMessage(Message message);
+        bool checkIfSendToken();
 
         int getPort();
         bool getHasToken();
         Token getToken();
         std::vector<std::pair<int,int>> getRN();
-        bool checkIfSendToken();
+        
     private:
         Message makeRequest();
         void incrementProcessRequestNumber();
         
-    // Private Functions 
         void sendMessage(Message message, int port);
-        //Socket operations 
         void *createZmqSocket(int type);
-    //Variables
+
         void *ctx;  
         int port;
         int id;
         Token token;
         bool hasToken;
-    //Conteners
         std::vector<std::pair<int,int>> RN; // PORTS + Request Numbers
-
-
-
-}; // SuzukiKasami class declaration 
+};
 
 
 #endif 

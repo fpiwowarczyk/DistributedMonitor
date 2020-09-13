@@ -16,7 +16,6 @@ class Monitor {
         void enter();
         void wait();
         void exit();
-        SuzukiKasami getSuzukiKasami();
     private:
         SuzukiKasami suzukiKasami;
         void *ctx;

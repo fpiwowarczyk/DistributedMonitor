@@ -1,4 +1,4 @@
-# DistributedMonitor
+# DistributedMonitor 
 A distributed monitor project with implementation of Suzuki Kasami Algorithm and using ZMQ to communicate between processes.
 
 ## How to use

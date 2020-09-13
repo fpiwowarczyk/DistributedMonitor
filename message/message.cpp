@@ -10,9 +10,9 @@ Message::Message( MessageType  _messageType, int _port,int _sn)
                 : messageType{_messageType},port{_port},sn{_sn}{ }
 
 Message::Message(MessageType _messageType, int _port,
-                    std::vector<int> _LN,std::queue<int> _requestQueue):
-                    messageType{_messageType}, port{_port},
-                    LN{_LN},requestQueue{_requestQueue}{ }
+                std::vector<int> _LN,std::queue<int> _requestQueue):
+                messageType{_messageType}, port{_port},
+                LN{_LN},requestQueue{_requestQueue}{ }
 
 std::string Message::serializeMessage(){
         std::string serializedMessage="";
@@ -24,15 +24,6 @@ std::string Message::serializeMessage(){
         return serializedMessage;
 }
 
-
-std::string Message::serializeField(std::string fieldValue,bool Last){
-    switch(Last){
-        case false:
-            return fieldValue +",";
-        case true:
-            return fieldValue;
-    }
-}
 void Message::deserializeMessage(std::string serializedMessage){
     std::vector<std::string> fieldsValues = 
         Utils::splitString(serializedMessage,',');
@@ -77,16 +68,16 @@ std::queue<int> Message::getRequestQueue(){return requestQueue;}
 
 std::string Message::serializeMessageToken(){
     std::string serialized ="";
-    serialized += serializeField(messageTypeToString(messageType),false);
-    serialized += serializeField(std::to_string(port),false);
-    serialized += serializeField(Utils::vectorToString(LN),false);
-    serialized += serializeField(Utils::queueToString(requestQueue),true); // Failing 
+    serialized += messageTypeToString(messageType)+",";
+    serialized += std::to_string(port)+",";
+    serialized += Utils::vectorToString(LN)+",";
+    serialized += Utils::queueToString(requestQueue) ;
     return serialized;
 }
 std::string Message::serializeMessageRequest(){
     std::string serialized = "";
-    serialized += serializeField(messageTypeToString(messageType),false);
-    serialized += serializeField(std::to_string(port),false);
-    serialized += serializeField(std::to_string(sn),true);
+    serialized += messageTypeToString(messageType)+",";
+    serialized += std::to_string(port)+",";
+    serialized += std::to_string(sn);
     return serialized;
 }

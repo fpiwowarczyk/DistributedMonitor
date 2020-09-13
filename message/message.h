@@ -33,6 +33,5 @@ class Message  {
 
         std::string serializeMessageToken();
         std::string serializeMessageRequest();
-        std::string serializeField(std::string fieldValue,bool Last);
 };
 #endif

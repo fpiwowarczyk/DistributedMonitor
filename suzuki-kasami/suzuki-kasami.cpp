@@ -63,7 +63,8 @@ void SuzukiKasami::exitCriticalSection(){
 }
 
 
-bool SuzukiKasami::checkIfSendToken(){return(token.getRequestQueue().size()>0);}
+bool SuzukiKasami::checkIfSendToken(){return(token.getRequestQueue().size()>0);
+std::cout<<"Czekam"<<std::endl;}
 
 int SuzukiKasami::getPort(){return port;}
 

@@ -11,7 +11,7 @@ void exampleProgram(int numberProgram){
     } else if (numberProgram==2){
         testProgram2();
     } else if(numberProgram==3){
-        //testProgram3();
+        testProgram3();
     }
 }
 
@@ -83,6 +83,14 @@ void testProgram3(){
         waitForSecs(1);
         monitor.exit();
     std::cout<<"Program3: Task4"<<std::endl;
+        monitor.enter();
+        waitForSecs(1);
+        monitor.exit();
+     std::cout<<"Program3: Task5"<<std::endl;           
+        monitor.enter();
+        waitForSecs(1);
+        monitor.exit();
+        std::cout<<"Program3: Task6"<<std::endl;
         monitor.enter();
         waitForSecs(1);
         monitor.exit();

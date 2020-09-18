@@ -5,7 +5,7 @@ Monitor::Monitor(int port, std::vector<int> otherPorts,bool hasToken) :suzukiKas
     receiveSocket = zmq_socket(ctx,ZMQ_REP);
     std::string host = HOST_ADDRESS+std::to_string(port);
     zmq_bind(receiveSocket,host.c_str());
-    std::cout <<"Initialized with address: " << host << std::endl;
+    std::cout <<"Start with addresss: " << host << std::endl;
     otherPorts.push_back(port);
     otherPorts=Utils::sortVector(otherPorts);
     for(const int &otherPort : otherPorts) {
@@ -38,14 +38,16 @@ void Monitor::wait(){
 void Monitor::exit(){
     std::cout<<"Monitor leaves ciritical section"<<std::endl;
     suzukiKasami.exitCriticalSection();
-    while(!suzukiKasami.checkIfSendToken()) wait();
-    suzukiKasami.sendTokenMessage();
+    if(suzukiKasami.checkIfSendToken()){
+        suzukiKasami.sendTokenMessage();
+    }
+    
 }
 
 void Monitor::destoryCtx(){zmq_ctx_destroy(ctx);}
 
 void Monitor::handleReceivingMessages(){
-  std::cout << "Handler function is initialized" << std::endl;
+  std::cout << "Messages handler start" << std::endl;
   char *buffer = new char[BUFFER_SIZE];
   while (true) {
     memset(buffer, 0, BUFFER_SIZE);

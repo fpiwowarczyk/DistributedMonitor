@@ -30,6 +30,7 @@ int main(int argc,char **argv) {
    }else {
        std::cout << "Invalid argument: " << argv[1] << std::endl;
     }
+
    return 1; 
 }
 
